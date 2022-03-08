@@ -13,10 +13,10 @@ const isProd = process.env.NODE_ENV === "production";
 
 setup({
   esbuildWasmPath:
-    (isProd ? "/pages/uex/code-kitchen" : "") +
+    (isProd ? "/code-kitchen" : "") +
     `/libs/esbuild-wasm/${esbuildWasmMeta.version}`,
   monacoEditorPath:
-    (isProd ? "/pages/uex/code-kitchen" : "") +
+    (isProd ? "/code-kitchen" : "") +
     `/libs/monaco-editor/${monacoEditorMeta.version}/min`,
 });
 

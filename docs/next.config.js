@@ -42,7 +42,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  assetPrefix: isProd ? "/pages/uex/code-kitchen/" : "",
+  assetPrefix: isProd ? "/code-kitchen/" : "",
   webpack: (config, { webpack }) => {
     const monacoEditorVersion = require("monaco-editor/package.json").version;
     const esbuildWasmVersion = require("esbuild-wasm/package.json").version;
