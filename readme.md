@@ -110,10 +110,11 @@ Now you will be able to preview the document in `localhost:3000`
 ## TODO
 
 - [x] Bundle and publish scripts
+- [ ] Modulation like "react-live"
 - [ ] More Docs
-- [ ] Tests
+- [x] Tests
 - [ ] CICD
-- [ ] Customizable styles
+- [x] Customizable styles
 - [ ] Vue support
 - [ ] React HMR for playground to preserve states
 
