@@ -4,15 +4,15 @@
 
 Compared to other solutions, it supports the following features:
 
-- Private source code dependencies support
+- Private source code dependencies support 🔒
 - Multiple files in a single demo
 - CSS (CSS modules) and JSON files
-- A completely static solution without the need for a remote server
+- A completely static solution without the need for a remote server 🔌
 - Type hints in the code editor
 
 ## Demo 🎩
 
-Check out the demo at <PLACEHOLDER>
+Check out the demo at https://freewheel.github.io/code-kitchen/
 
 ## Usage
 
