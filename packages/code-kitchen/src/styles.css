@@ -1,0 +1,291 @@
+.code-kitchen-root {
+  --code-kitchen-background: #fff;
+  --code-kitchen-head-height: 34px;
+  --code-kitchen-border-color: rgb(229 231 235);
+  --code-kitchen-border-radius: 8px;
+  --code-kitchen-primary-color: #584984;
+  --code-kitchen-button-text-color: rgb(101, 102, 102);
+  --code-kitchen-error-color: #b91c1c;
+
+  background-color: var(--code-kitchen-background);
+  border-radius: var(--code-kitchen-border-radius);
+  border: 1px solid var(--code-kitchen-border-color);
+  display: flex;
+  position: relative;
+}
+
+.code-kitchen-root,
+.code-kitchen-root :is(*, ::after, ::before) {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.code-kitchen-preview-panel-header,
+.code-kitchen-files-editor-panel-header {
+  display: flex;
+  z-index: 20;
+  flex-shrink: 0;
+  height: var(--code-kitchen-head-height);
+  width: 100%;
+  border-bottom: 1px solid var(--code-kitchen-border-color);
+}
+
+/* 
+ * code-kitchen-files-editor-panel 
+ */
+
+.code-kitchen-files-editor-panel {
+  display: flex;
+  position: relative;
+}
+
+.code-kitchen-monaco-editor-anchor {
+  top: var(--code-kitchen-head-height);
+  flex: 1;
+  width: 100%;
+  height: calc(100% - var(--code-kitchen-head-height));
+  position: absolute;
+}
+.code-kitchen-files-editor-panel-header {
+  position: relative;
+}
+.code-kitchen-files-editor-panel-header-tabs {
+  display: flex;
+  overflow: auto;
+  flex: 1;
+}
+
+.code-kitchen-files-editor-panel-header-tab {
+  margin: 2px 2px 0;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+  user-select: none;
+  border-bottom: 2px solid transparent;
+}
+
+.code-kitchen-files-editor-panel-header-tab[data-active] {
+  color: var(--code-kitchen-primary-color);
+  border-bottom-color: var(--code-kitchen-primary-color);
+}
+
+.code-kitchen-files-editor-panel-header-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 8px;
+}
+
+.code-kitchen-action-button {
+  font-size: 12px;
+  border-radius: 4px;
+  color: var(--code-kitchen-button-text-color);
+  font-weight: 600;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.6;
+  user-select: none;
+  transition: all 0.1s;
+  text-decoration: underline;
+}
+
+.code-kitchen-action-button[data-action="reset"] {
+  visibility: hidden;
+}
+
+.code-kitchen-files-editor-panel[data-dirty="true"]
+  .code-kitchen-action-button[data-action="reset"] {
+  visibility: visible;
+}
+
+.code-kitchen-action-button:hover {
+  opacity: 1;
+  background-color: #e5e7eb;
+}
+
+.code-kitchen-action-button:active {
+  background-color: #d1d5db;
+}
+
+.code-kitchen-preview-panel-header-action-button {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  border-radius: 4px;
+  color: var(--code-kitchen-button-text-color);
+  border: 1px solid rgb(197, 199, 200);
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  margin-left: 8px;
+}
+
+.code-kitchen-preview-panel-header-action-button:hover {
+  background-color: #e5e7eb;
+}
+
+.code-kitchen-preview-panel-header-actions {
+  display: flex;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* 
+ * code-kitchen-preview-panel
+ */
+.code-kitchen-preview-panel {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  overflow: auto;
+}
+
+.code-kitchen-preview-panel-header {
+  position: sticky;
+  top: 0;
+  align-items: center;
+  padding: 0 12px;
+  background-color: rgb(247 248 248);
+  border-top-right-radius: var(--code-kitchen-border-radius);
+}
+
+.code-kitchen-preview-panel-header-label {
+  font-weight: 600;
+  font-size: 12px;
+  flex: 1;
+}
+
+.code-kitchen-error-toggle {
+  font-size: 28px;
+  position: absolute;
+  z-index: 10;
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
+  color: var(--code-kitchen-error-color);
+  transition: all 0.1s;
+}
+
+.code-kitchen-error-toggle:hover {
+  opacity: 0.8;
+}
+
+.code-kitchen-preview-panel-preview-error {
+  position: absolute;
+  overflow: auto;
+  z-index: 10;
+  background-color: var(--code-kitchen-error-color);
+  font-family: monospace;
+  padding: 12px;
+  white-space: pre-wrap;
+  width: 100%;
+  color: #fff;
+  font-size: 12px;
+  transition: all 0.1s;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  line-height: 20px;
+}
+
+.code-kitchen-preview-panel-preview-container {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+  position: relative;
+}
+
+.code-kitchen-preview-panel-preview-content {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  overflow: auto;
+  padding: 12px;
+  position: absolute;
+}
+
+.code-kitchen-editor-loading-text {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Error states */
+.code-kitchen-root[data-show-error] .code-kitchen-error-toggle {
+  color: #fff;
+}
+
+/* Fullscreen */
+.code-kitchen-root[data-fullscreen] {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+}
+
+/* Horizontal */
+.code-kitchen-root[data-dir="h"] {
+  align-items: stretch;
+  flex-flow: row-reverse;
+  min-height: 128px;
+}
+
+.code-kitchen-root[data-dir="h"]
+  :is(.code-kitchen-files-editor-panel, .code-kitchen-preview-panel) {
+  width: 50%;
+  height: auto;
+  flex: 1;
+}
+
+.code-kitchen-root[data-dir="h"] .code-kitchen-files-editor-panel {
+  border-right: 1px solid var(--code-kitchen-border-color);
+}
+
+.code-kitchen-root[data-dir="h"] .code-kitchen-preview-panel {
+  min-height: 128px;
+}
+
+/* Vertical */
+.code-kitchen-root[data-dir="v"] {
+  flex-flow: column;
+}
+
+.code-kitchen-root[data-dir="v"]
+  :is(.code-kitchen-files-editor-panel, .code-kitchen-preview-panel) {
+  width: 100%;
+  height: 50%;
+  min-height: 320px;
+}
+
+.code-kitchen-root[data-dir="v"] .code-kitchen-files-editor-panel {
+  border-top: 1px solid var(--code-kitchen-border-color);
+}
+
+:is(.code-kitchen-root[data-dir="v"], .code-kitchen-root[data-show-code="false"])
+  .code-kitchen-preview-panel-header {
+  border-top-left-radius: var(--code-kitchen-border-radius);
+  border-top-right-radius: var(--code-kitchen-border-radius);
+}
+
+/*********/
+
+/* monaco-editor:
+   Reset some background colors to make the code editor to work
+   better with rounded bordered */
+.code-kitchen-root
+  :is(.monaco-editor, .monaco-editor-background, .monaco-editor .margin) {
+  background-color: transparent;
+}

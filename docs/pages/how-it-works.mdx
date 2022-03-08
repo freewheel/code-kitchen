@@ -1,0 +1,215 @@
+# How in browser bundler works?
+
+The core of the in-browser bundler is [esbuild-wasm](https://esbuild.github.io/api/#running-in-the-browser). We also implemented a custom plugin to resolve CSS files, relative files etc.
+
+You can checkout the source code at `packages/src/bundle.ts`.
+
+## Resolve & transpile files
+
+Each playground file is virtually represented by the following interface:
+
+```ts
+export interface PlaygroundInputFile {
+  filename: string;
+  code: string;
+}
+```
+
+Bundling these files is starting from the _entrypoint file_, which is the first one if there are multiple files. An entrypoint file for a playground **is a jsx/tsx module that has a default export and the default export is a React function component**.
+
+During bundling, esbuild will traverse the module tree and resolve all the import paths.
+
+- relative paths: if a file starts with `./`, we believe it is a virtual relative file that can be found in the inputs. These files will be transpiled and concatenated into the final bundling result.
+- external identifiers: all other imports are considered as external dependencies. Eg., Material UI & React, etc. These imports will leave as is in the final bundling result as `require()` calls.
+
+esbuild can transpile common [React related modules by default](https://esbuild.github.io/content-types/), including `jsx`, `tsx`, `json` etc. For CSS, we need to have some special handling, otherwise the styles will pollute the components outside of preview.
+
+### Scoped, global CSS and CSS Modules
+
+In Code Kitchen, we allow three types of CSS files for playground. By default, rules in a CSS file is scoped to the current preview. We also enabled Global and CSS Modules support with `.global.css` and `.module.css` extensions.
+
+For all of the modes, we will use a [style-loader](https://webpack.js.org/loaders/style-loader/) approach that injects the transpiled CSS to the DOM.
+
+For scoped & CSS Modules, we also relied on [stylis](https://github.com/thysultan/stylis.js) to transpile CSS along with esbuild, which is a CSS preprocessor that we can hack into the intermediate CSS AST for rules and declarations.
+
+#### Global CSS
+
+Rules with `global.css` will be simply applied globally even outside of the preview.
+
+#### Scoped CSS
+
+Rules in a normal css without special extension will be wrapped with a random class name, and the same class name will be used to wrap the playground preview in a `div` element.
+
+#### CSS Module
+
+CSS file ends with `module.css` will be treated as CSS modules. @[evanw](https://twitter.com/evanwallace) said he wants to use ["CSS module bundling part of esbuild MVP"](https://github.com/evanw/esbuild/issues/20), but it did not happen yet. We attempted to use PostCSS to transpile CSS Module as well, but it seems it is not supported to be run in the browser. As a result, we implement a sub-set of CSS module on our own with [stylis](https://github.com/thysultan/stylis.js).
+
+Typically, what we need to do for a `module.css` file:
+
+- add a prefix to every class name in the CSS
+- transpile the CSS into a JS object that is a mapping from original class name to the actual prefixed class name
+
+This turns out to be straightforward with stylis:
+
+```js
+function compileCssModule(css: string, buildId: string) {
+  const classMapping = {};
+  const res = serialize(
+    compile(css),
+    middleware([
+      (element) => {
+        if (element.length > -1) {
+          if (element.type === RULESET && element.props) {
+            element.props = (
+              Array.isArray(element.props)
+                ? [...element.props]
+                : [element.props]
+            ).map((prop) => {
+              return prop.replaceAll(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/g, (m) => {
+                const varName = m.slice(1);
+                if (!classMapping[varName]) {
+                  classMapping[varName] = varName + "_" + buildId;
+                }
+                return "." + classMapping[varName];
+              });
+            });
+          }
+        }
+      },
+      stringify,
+    ])
+  );
+
+  return {
+    contents: `${injectCSS(res, buildId)}
+    export default ${JSON.stringify(classMapping)}`,
+  };
+}
+```
+
+## Eval and Rendering the Preview
+
+Now that all playground are bundled in a single large string, which is a common js module that its default export is the latest demo React function component. E.g., the following input playground file
+
+````md
+```js
+import { Button } from "my-private-button-lib";
+import "./styles.css";
+
+export default function Demo() {
+  return <Button>Button</Button>;
+}
+```
+
+```css styles.css
+button {
+  width: 200px;
+}
+```
+````
+
+Will be bundled as
+
+```js
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __markAsModule = (target) =>
+  __defProp(target, "__esModule", { value: true });
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __reExport = (target, module2, copyDefault, desc) => {
+  if (
+    (module2 && typeof module2 === "object") ||
+    typeof module2 === "function"
+  ) {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
+        __defProp(target, key, {
+          get: () => module2[key],
+          enumerable:
+            !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable,
+        });
+  }
+  return target;
+};
+var __toESM = (module2, isNodeMode) => {
+  return __reExport(
+    __markAsModule(
+      __defProp(
+        module2 != null ? __create(__getProtoOf(module2)) : {},
+        "default",
+        !isNodeMode && module2 && module2.__esModule
+          ? { get: () => module2.default, enumerable: true }
+          : { value: module2, enumerable: true }
+      )
+    ),
+    module2
+  );
+};
+var __toCommonJS = /* @__PURE__ */ ((cache) => {
+  return (module2, temp) => {
+    return (
+      (cache && cache.get(module2)) ||
+      ((temp = __reExport(__markAsModule({}), module2, 1)),
+      cache && cache.set(module2, temp),
+      temp)
+    );
+  };
+})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+
+// playground-input:App.jsx
+var App_exports = {};
+__export(App_exports, {
+  default: () => Demo,
+});
+
+// playground-input:styles.css
+(function () {
+  const style = document.createElement("style");
+  style.innerHTML = ".esscu button{width:200px;}";
+  style.setAttribute("data-playground-style-id", "esscu");
+  document.head.appendChild(style);
+})();
+
+// playground-input:App.jsx
+var import_private_button_lib = __toESM(require("my-private-button-lib"));
+function Demo() {
+  return /* @__PURE__ */ React.createElement(
+    import_private_button_lib.Button,
+    null,
+    "Button"
+  );
+}
+module.exports = __toCommonJS(App_exports);
+```
+
+To render it, we need to:
+
+- evaluate the module and get the default export
+- if necessary, provide external dependencies
+
+The above module will be wrapped as `((require, module) => { ... content }))(require, module)` using `new Function` and then evaluate. Note we passed in two external variables, which is `require` and `module`.
+
+You can see in the bundled code there is a `require('my-private-button-lib')` call, which is the CJS version of `import 'my-private-button-lib'`. Thus, we can provide a customized `require` to inject external modules.
+
+```js
+import * as privateLib from "my-private-button-lib";
+// ...
+
+const dependencies = {
+  "my-private-button-lib": privateLib,
+  // ...
+};
+
+function require(key) {
+  return dependencies[key];
+}
+```
+
+After the bundled CJS module is evaluated, we then get the function component at `module.exports.default` and then render it to the preview panel.

@@ -1,0 +1,29 @@
+{
+  "name": "root",
+  "private": true,
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@playwright/test": "^1.19.2",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "eslint": "^8.10.0",
+    "eslint-plugin-react": "^7.29.2",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.4",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.4",
+    "zx": "^5.2.0"
+  },
+  "scripts": {
+    "prettier": "prettier . --write",
+    "prepare": "husky install",
+    "dev": "pnpm --dir docs dev",
+    "test": "pnpm --dir docs test"
+  },
+  "lint-staged": {
+    "*.{md,mdx,json,css,js,jsx,ts,tsx}": "prettier --write"
+  }
+}

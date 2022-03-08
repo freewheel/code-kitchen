@@ -1,0 +1,59 @@
+# Code Kitchen 🧑‍🍳
+
+**Code Kitchen** is a pure-static live-code playground that is easy to be used in a closed source environment for documenting React UI Libraries.
+
+Compared to other solutions, it supports the following features:
+
+- **Private source code dependencies** support
+- **Multiple files** in a single demo
+- **CSS** (CSS modules) and JSON files
+- Completely **static** without the need for a remote server
+- Type hints in the code editor
+
+<hr />
+
+## Demo 🎩
+
+Following is a simple demo, it shows:
+
+- Import and render a custom React component `<MovingDot />` from a private module `demo-lib`
+- Import `styles.module.css` and customize the styles with CSS Module
+
+You can change codes in the code editor and see the changes instantly get rendered in preview panel.
+
+<Playground name="A Moving Dot Demo" dir="v" className="!min-h-[320px]">
+
+```tsx App.tsx
+import React from "react";
+import { MovingDot } from "demo-lib";
+
+import styles from "./styles.module.css";
+
+export default () => {
+  return (
+    <MovingDot className={styles.container} color="white" size={50}>
+      <div className={styles.tada}>🎉</div>
+    </MovingDot>
+  );
+};
+```
+
+```css styles.module.css
+.container {
+  background: #aaa;
+  cursor: none;
+  user-select: none;
+}
+
+.container:active > div {
+  filter: brightness(0.9);
+}
+
+.tada {
+  font-size: 20px;
+}
+```
+
+</Playground>
+
+## [How it works? 🔗](./how-it-works)
