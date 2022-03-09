@@ -1,0 +1,15 @@
+branches:
+  - main
+  - release-action
+plugins:
+  - - "@semantic-release/commit-analyzer"
+    - preset: conventionalcommits
+  - "@semantic-release/release-notes-generator"
+  - "@semantic-release/changelog"
+  - - "@semantic-release/git"
+    - assets:
+      - "packages/code-kitchen"
+      - "!packages/code-kitchen/dist"
+  - - "@semantic-release/npm"
+    - pkgRoot: packages/code-kitchen/dist
+  - "@semantic-release/github"
