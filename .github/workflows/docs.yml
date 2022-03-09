@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Docs
+name: Deploy Docs
 
 # Controls when the workflow will run
 on:
@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2.2.1
+      - uses: pnpm/action-setup@v2
         with:
           version: 6
       - name: build
