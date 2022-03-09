@@ -8,6 +8,7 @@ plugins:
   - "@semantic-release/changelog"
   - - "@semantic-release/git"
     - assets:
+      - CHANGELOG.md
       - "packages/code-kitchen"
       - "!packages/code-kitchen/dist"
   - - "@semantic-release/npm"
