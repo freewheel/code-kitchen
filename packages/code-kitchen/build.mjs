@@ -21,4 +21,4 @@ Object.assign(glob, {
 
 fs.writeFileSync("dist/package.json", JSON.stringify(glob, null, 2));
 
-await $`cp ../../LICENSE ../../readme.md dist`;
+await $`cp ../../LICENSE ../../readme.md ../../NOTICE.md dist`;
