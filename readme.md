@@ -1,5 +1,7 @@
 # Code Kitchen 🧑‍🍳
 
+<a href="https://github.com/freewheel/code-kitchen"><img src="https://badge.fury.io/js/code-kitchen.svg"></img></a>
+
 **Code Kitchen** is a React live-coding playground which allows the developers to embed React component demos into a React UI library’s web documents.
 
 Compared to other solutions, it supports the following features:
@@ -16,11 +18,13 @@ Check out the demo at https://freewheel.github.io/code-kitchen/
 
 ## Usage
 
-Install it with `npm install code-kitchen`.
+Install with `npm install code-kitchen`.
 
 Note: due to the size of esbuild-wasm and monaco-editor, they are not bundled with this library. By default they are loaded via jsDelivr CDN. You can configure this by calling `setup` in the runtime.
 
-A minimum example is shown below.
+You can checkout a minimum example at this [Code Sandbox](https://codesandbox.io/s/code-kitchen-example-0p5p6v).
+
+### Minimal setup
 
 ```tsx
 import * as React from "react";
@@ -106,17 +110,6 @@ pnpm dev
 ```
 
 Now you will be able to preview the document in `localhost:3000`
-
-## TODO
-
-- [x] Bundle and publish scripts
-- [ ] Modulation like "react-live"
-- [ ] More Docs
-- [x] Tests
-- [ ] CICD
-- [x] Customizable styles
-- [ ] Vue support
-- [ ] React HMR for playground to preserve states
 
 # Q/A
 
