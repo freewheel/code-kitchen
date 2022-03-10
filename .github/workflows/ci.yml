@@ -14,25 +14,25 @@ jobs:
   e2e-test:
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Set node version to 16.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.x
-        cache: "pnpm"
+      - name: Set node version to 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "pnpm"
 
-    - name: Install pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 6
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6
 
-    - name: Install deps
-      run: |
-        pnpm install
-        npx playwright install-deps chromium
+      - name: Install deps
+        run: |
+          pnpm install
+          npx playwright install-deps chromium
 
-    - name: Run tests
-      run: pnpm test
+      - name: Run tests
+        run: pnpm test
