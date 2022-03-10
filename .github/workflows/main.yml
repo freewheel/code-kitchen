@@ -13,16 +13,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 6
-
       - name: Set node version to 16.x
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
           cache: "pnpm"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6
 
       - name: Install deps
         run: pnpm install
@@ -31,6 +31,7 @@ jobs:
         run: |
           cd packages/code-kitchen
           pnpm run build
+
       - name: Release
         run: pnpm semantic-release
         env:
