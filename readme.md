@@ -1,6 +1,7 @@
 # Code Kitchen 🧑‍🍳
 
 <a href="https://github.com/freewheel/code-kitchen"><img src="https://badge.fury.io/js/code-kitchen.svg"></img></a>
+<a href="https://github.com/freewheel/code-kitchen/blob/main/LICENSE"><img src="https://img.shields.io/github/license/freewheel/code-kitchen"></img></a>
 
 **Code Kitchen** is a React live-coding playground which allows the developers to embed React component demos into a React UI library’s web documents.
 
@@ -96,6 +97,8 @@ The project is a monorepo managed by pnpm.
 
 # Local Development
 
+This library is developed with a typical Next.js [document site](https://freewheel.github.io/code-kitchen/).
+
 ## Prerequisites
 
 - Node.js
@@ -117,6 +120,10 @@ Now you will be able to preview the document in `localhost:3000`
 
 See [this explanation](./docs/pages/how-it-works.mdx)
 
+# Contribution
+
+See [Contributing Guide](./CONTRIBUTING.md)
+
 # License
 
-[Apache-2.0](/LICENSE) by FreeWheel
+[Apache-2.0](./LICENSE) by FreeWheel
