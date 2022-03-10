@@ -9,9 +9,6 @@ plugins:
   - - "@semantic-release/git"
     - assets:
         - CHANGELOG.md
-        - "packages/code-kitchen"
-        - "!packages/code-kitchen/dist"
-        - "!packages/code-kitchen/node_modules"
   - - "@semantic-release/npm"
     - pkgRoot: packages/code-kitchen/dist
   - "@semantic-release/github"
