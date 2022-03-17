@@ -121,9 +121,13 @@ Now you will be able to preview the document in `localhost:3000`
 
 See [this explanation](./docs/pages/how-it-works.mdx)
 
-# Contribution
+## How to Contribution
 
 See [Contributing Guide](./CONTRIBUTING.md)
+
+## Acknowledgements
+
+See [Acknowledgements](./acknowledgement.md)
 
 # License
 
