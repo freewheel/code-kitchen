@@ -1,3 +1,9 @@
+## [1.0.3](https://github.com/freewheel/code-kitchen/compare/v1.0.2...v1.0.3) (2022-04-08)
+
+### Bug Fixes
+
+- bump React version ([9925a4e](https://github.com/freewheel/code-kitchen/commit/9925a4e712c596ce0f7425198ac3f44a12147942))
+
 ## [1.0.2](https://github.com/freewheel/code-kitchen/compare/v1.0.1...v1.0.2) (2022-03-10)
 
 ### Bug Fixes
