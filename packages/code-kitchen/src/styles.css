@@ -6,12 +6,14 @@
   --code-kitchen-primary-color: #584984;
   --code-kitchen-button-text-color: rgb(101, 102, 102);
   --code-kitchen-error-color: #b91c1c;
+  --code-kitchen-fullscreen-padding: 20px;
 
   background-color: var(--code-kitchen-background);
   border-radius: var(--code-kitchen-border-radius);
   border: 1px solid var(--code-kitchen-border-color);
   display: flex;
   position: relative;
+  /* min-height: fit-content; */
 }
 
 .code-kitchen-root,
@@ -230,10 +232,14 @@
 /* Fullscreen */
 .code-kitchen-root[data-fullscreen] {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
+  top: var(--code-kitchen-fullscreen-padding);
+  left: var(--code-kitchen-fullscreen-padding);
+  height: calc(100% - 2 * var(--code-kitchen-fullscreen-padding));
+  width: calc(100% - 2 * var(--code-kitchen-fullscreen-padding));
+}
+
+.code-kitchen-root[data-fullscreen][data-dir="v"] {
+  min-height: 640px;
 }
 
 /* Horizontal */

@@ -1,4 +1,6 @@
 import * as React from "react";
+import * as ReactDOM from "react-dom";
+
 import { FilesEditor } from "./files-editor";
 import {
   ErrorIcon,
@@ -45,6 +47,35 @@ function ControlButton({
   );
 }
 
+// Fullscreen will always render to the boday
+const BodyPortal = ({
+  portal,
+  children,
+}: {
+  portal?: string;
+  children: React.ReactNode;
+}) => {
+  const [anchor, setAnchor] = React.useState(null);
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && !portal) {
+      return;
+    }
+    const node = document.createElement("div");
+    const portalEl = document.querySelector(portal);
+    node.setAttribute("data-code-kitchen-portal", "true");
+    portalEl.appendChild(node);
+    setAnchor(node);
+    return () => {
+      node.remove();
+    };
+  }, [portal]);
+  return portal ? (
+    anchor && ReactDOM.createPortal(children, anchor)
+  ) : (
+    <>{children}</>
+  );
+};
+
 export function Playground({
   initialFiles,
   require,
@@ -83,71 +114,75 @@ export function Playground({
   }, [initialFiles]);
 
   return (
-    <div
-      style={style}
-      className={"code-kitchen-root" + (className ? " " + className : "")}
-      data-dir={dir}
-      data-fullscreen={fullScreen ? true : undefined}
-      data-show-error={realShowError ? true : undefined}
-      data-show-code={showCode}
-    >
-      <div className="code-kitchen-preview-panel">
-        <div className="code-kitchen-preview-panel-header">
-          <div className="code-kitchen-preview-panel-header-label">{name}</div>
-          <div className="code-kitchen-preview-panel-header-actions">
-            {showCode && (
+    <BodyPortal portal={fullScreen ? "body" : undefined}>
+      <div
+        style={style}
+        className={"code-kitchen-root" + (className ? " " + className : "")}
+        data-dir={dir}
+        data-fullscreen={fullScreen ? true : undefined}
+        data-show-error={realShowError ? true : undefined}
+        data-show-code={showCode}
+      >
+        <div className="code-kitchen-preview-panel">
+          <div className="code-kitchen-preview-panel-header">
+            <div className="code-kitchen-preview-panel-header-label">
+              {name}
+            </div>
+            <div className="code-kitchen-preview-panel-header-actions">
+              {showCode && (
+                <ControlButton
+                  icon={
+                    dir === "h" ? (
+                      <RotateToVerticalIcon />
+                    ) : (
+                      <RotateToHorizontalIcon />
+                    )
+                  }
+                  onClick={() => setDir(dir === "h" ? "v" : "h")}
+                />
+              )}
               <ControlButton
-                icon={
-                  dir === "h" ? (
-                    <RotateToVerticalIcon />
-                  ) : (
-                    <RotateToHorizontalIcon />
-                  )
-                }
-                onClick={() => setDir(dir === "h" ? "v" : "h")}
+                icon={!showCode ? <ShowCodeIcon /> : <HideCodeIcon />}
+                onClick={() => setShowCode((c) => !c)}
               />
-            )}
-            <ControlButton
-              icon={!showCode ? <ShowCodeIcon /> : <HideCodeIcon />}
-              onClick={() => setShowCode((c) => !c)}
-            />
-            <ControlButton
-              icon={!fullScreen ? <FullscreenIcon /> : <ExitFullscreenIcon />}
-              onClick={() => setFullScreen((f) => !f)}
-            />
+              <ControlButton
+                icon={!fullScreen ? <FullscreenIcon /> : <ExitFullscreenIcon />}
+                onClick={() => setFullScreen((f) => !f)}
+              />
+            </div>
           </div>
-        </div>
-        <div className="code-kitchen-preview-panel-preview-container">
+          <div className="code-kitchen-preview-panel-preview-container">
+            {error && (
+              <div
+                className="code-kitchen-preview-panel-preview-error"
+                style={{ opacity: realShowError ? 1 : 0 }}
+              >
+                <pre>{error.toString()}</pre>
+              </div>
+            )}
+            <div className="code-kitchen-preview-panel-preview-content">
+              {bundling && !Preview ? "loading..." : Preview && <Preview />}
+            </div>
+          </div>
           {error && (
             <div
-              className="code-kitchen-preview-panel-preview-error"
-              style={{ opacity: realShowError ? 1 : 0 }}
+              className="code-kitchen-error-toggle"
+              onClick={() => setShowError((e) => !e)}
             >
-              <pre>{error.toString()}</pre>
+              <ErrorIcon />
             </div>
           )}
-          <div className="code-kitchen-preview-panel-preview-content">
-            {bundling && !Preview ? "loading..." : Preview && <Preview />}
-          </div>
         </div>
-        {error && (
-          <div
-            className="code-kitchen-error-toggle"
-            onClick={() => setShowError((e) => !e)}
-          >
-            <ErrorIcon />
-          </div>
+
+        {showCode && (
+          <FilesEditor
+            id={id}
+            initialFiles={initialFiles}
+            files={files}
+            onChange={setFiles}
+          />
         )}
       </div>
-
-      {showCode && (
-        <FilesEditor
-          id={id}
-          initialFiles={initialFiles}
-          files={files}
-          onChange={setFiles}
-        />
-      )}
-    </div>
+    </BodyPortal>
   );
 }
