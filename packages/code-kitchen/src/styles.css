@@ -7,6 +7,7 @@
   --code-kitchen-button-text-color: rgb(101, 102, 102);
   --code-kitchen-error-color: #b91c1c;
   --code-kitchen-fullscreen-padding: 20px;
+  --code-kitchen-preview-padding: 12px;
 
   background-color: var(--code-kitchen-background);
   border-radius: var(--code-kitchen-border-radius);
@@ -86,6 +87,7 @@
 .code-kitchen-action-button {
   font-size: 12px;
   border-radius: 4px;
+  cursor: pointer;
   color: var(--code-kitchen-button-text-color);
   font-weight: 600;
   padding: 0 8px;
@@ -154,7 +156,7 @@
   position: sticky;
   top: 0;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 var(--code-kitchen-preview-padding);
   background-color: rgb(247 248 248);
   border-top-right-radius: var(--code-kitchen-border-radius);
 }
@@ -188,14 +190,13 @@
   font-family: monospace;
   padding: 12px;
   white-space: pre-wrap;
+  bottom: 0px;
+  left: 0px;
+  height: 100%;
   width: 100%;
   color: #fff;
   font-size: 12px;
   transition: all 0.1s;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
   line-height: 20px;
 }
 
@@ -210,9 +211,8 @@
   width: 100%;
   height: 100%;
   flex: 1;
-  overflow: auto;
-  padding: 12px;
-  position: absolute;
+  position: relative;
+  padding: var(--code-kitchen-preview-padding);
 }
 
 .code-kitchen-editor-loading-text {

@@ -30,15 +30,18 @@ function useDebouncedValue<T>(value: T, delay: number) {
 }
 
 function ControlButton({
+  title,
   icon,
   onClick,
 }: {
+  title: string;
   icon: React.ReactNode;
   onClick: () => void;
 }) {
   return (
     <div
       role="button"
+      title={title}
       className="code-kitchen-preview-panel-header-action-button"
       onClick={onClick}
     >
@@ -131,6 +134,7 @@ export function Playground({
             <div className="code-kitchen-preview-panel-header-actions">
               {showCode && (
                 <ControlButton
+                  title="Toggle Layout"
                   icon={
                     dir === "h" ? (
                       <RotateToVerticalIcon />
@@ -142,10 +146,12 @@ export function Playground({
                 />
               )}
               <ControlButton
+                title="Show/Hide Code Editor"
                 icon={!showCode ? <ShowCodeIcon /> : <HideCodeIcon />}
                 onClick={() => setShowCode((c) => !c)}
               />
               <ControlButton
+                title="Toggle fullscreen"
                 icon={!fullScreen ? <FullscreenIcon /> : <ExitFullscreenIcon />}
                 onClick={() => setFullScreen((f) => !f)}
               />
@@ -155,7 +161,10 @@ export function Playground({
             {error && (
               <div
                 className="code-kitchen-preview-panel-preview-error"
-                style={{ opacity: realShowError ? 1 : 0 }}
+                style={{
+                  opacity: realShowError ? 1 : 0,
+                  pointerEvents: realShowError ? "all" : "none",
+                }}
               >
                 <pre>{error.toString()}</pre>
               </div>
@@ -166,6 +175,7 @@ export function Playground({
           </div>
           {error && (
             <div
+              title="This preview has errors. Click to show."
               className="code-kitchen-error-toggle"
               onClick={() => setShowError((e) => !e)}
             >
