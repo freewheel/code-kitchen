@@ -1,3 +1,9 @@
+## [1.0.5](https://github.com/freewheel/code-kitchen/compare/v1.0.4...v1.0.5) (2022-04-11)
+
+### Bug Fixes
+
+- error panel styles ([756ec45](https://github.com/freewheel/code-kitchen/commit/756ec45032e65252a71f770369f247034f36c5b6))
+
 ## [1.0.4](https://github.com/freewheel/code-kitchen/compare/v1.0.3...v1.0.4) (2022-04-11)
 
 ### Bug Fixes
