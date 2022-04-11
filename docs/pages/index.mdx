@@ -31,9 +31,11 @@ import styles from "./styles.module.css";
 
 export default () => {
   return (
-    <MovingDot className={styles.container} color="white" size={50}>
-      <div className={styles.tada}>🎉</div>
-    </MovingDot>
+    <div className={styles.container}>
+      <MovingDot color="white" size={50}>
+        <div className={styles.tada}>🎉</div>
+      </MovingDot>
+    </div>
   );
 };
 ```
@@ -43,6 +45,8 @@ export default () => {
   background: #aaa;
   cursor: none;
   user-select: none;
+  min-height: 160px;
+  height: 100%;
 }
 
 .container:active > div {
