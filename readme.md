@@ -1,6 +1,6 @@
 # Code Kitchen 🧑‍🍳
 
-<a href="https://github.com/freewheel/code-kitchen"><img src="https://img.shields.io/npm/v/code-kitchen"></img></a>
+<a href="http://npmjs.com/package/code-kitchen"><img src="https://img.shields.io/npm/v/code-kitchen"></img></a>
 <a href="https://github.com/freewheel/code-kitchen/blob/main/LICENSE"><img src="https://img.shields.io/github/license/freewheel/code-kitchen"></img></a>
 [![CI](https://github.com/freewheel/code-kitchen/actions/workflows/ci.yml/badge.svg)](https://github.com/freewheel/code-kitchen/actions/workflows/ci.yml)
 
