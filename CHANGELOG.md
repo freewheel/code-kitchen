@@ -1,3 +1,9 @@
+## [1.0.6](https://github.com/freewheel/code-kitchen/compare/v1.0.5...v1.0.6) (2022-04-11)
+
+### Bug Fixes
+
+- remove box-sizing reset ([b816334](https://github.com/freewheel/code-kitchen/commit/b816334ec5a9158a180229730b64e8e994e384fb))
+
 ## [1.0.5](https://github.com/freewheel/code-kitchen/compare/v1.0.4...v1.0.5) (2022-04-11)
 
 ### Bug Fixes
