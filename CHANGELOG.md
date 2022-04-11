@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/freewheel/code-kitchen/compare/v1.0.3...v1.0.4) (2022-04-11)
+
+### Bug Fixes
+
+- fullscreen styles ([71105be](https://github.com/freewheel/code-kitchen/commit/71105bef3b3c7ef57f17c2e4b19f44a14d35731a))
+- readme link ([ecdcf9b](https://github.com/freewheel/code-kitchen/commit/ecdcf9b85afb119c4db88facb353fbee22f065b6))
+
 ## [1.0.3](https://github.com/freewheel/code-kitchen/compare/v1.0.2...v1.0.3) (2022-04-08)
 
 ### Bug Fixes
