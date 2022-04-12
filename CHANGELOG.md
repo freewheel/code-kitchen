@@ -1,3 +1,9 @@
+## [1.0.8](https://github.com/freewheel/code-kitchen/compare/v1.0.7...v1.0.8) (2022-04-12)
+
+### Bug Fixes
+
+- header sticky issue ([cb6600f](https://github.com/freewheel/code-kitchen/commit/cb6600fc9be719d6d5162f2a7dcaef46e9dc3511))
+
 ## [1.0.7](https://github.com/freewheel/code-kitchen/compare/v1.0.6...v1.0.7) (2022-04-12)
 
 ### Bug Fixes
