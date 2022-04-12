@@ -65,7 +65,7 @@ const BodyPortal = ({
     }
     const node = document.createElement("div");
     const portalEl = document.querySelector(portal);
-    node.setAttribute("data-code-kitchen-portal", "true");
+    node.classList.add("code-kitchen-portal");
     portalEl.appendChild(node);
     setAnchor(node);
     return () => {
