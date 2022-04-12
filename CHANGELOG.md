@@ -1,3 +1,9 @@
+## [1.0.7](https://github.com/freewheel/code-kitchen/compare/v1.0.6...v1.0.7) (2022-04-12)
+
+### Bug Fixes
+
+- code kitchen in fullscreen ([89a1e81](https://github.com/freewheel/code-kitchen/commit/89a1e816a7aaacb34fce58a2c4fb40e54f6f24a4))
+
 ## [1.0.6](https://github.com/freewheel/code-kitchen/compare/v1.0.5...v1.0.6) (2022-04-11)
 
 ### Bug Fixes
