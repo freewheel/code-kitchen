@@ -1,3 +1,11 @@
+## [1.0.9](https://github.com/freewheel/code-kitchen/compare/v1.0.8...v1.0.9) (2022-04-13)
+
+### Bug Fixes
+
+- dependencies ([d4e3426](https://github.com/freewheel/code-kitchen/commit/d4e342684200091446852c5f248bc53148526ad6))
+- remove monaco-editor & esbuild-wasm from dependencies ([2e5245e](https://github.com/freewheel/code-kitchen/commit/2e5245e790e2dc3591165b9cabaf0120222bee87))
+- various fullscreen styles ([5d0ff19](https://github.com/freewheel/code-kitchen/commit/5d0ff19bbb70deed4df9348cae992e0fc39c11dc))
+
 ## [1.0.8](https://github.com/freewheel/code-kitchen/compare/v1.0.7...v1.0.8) (2022-04-12)
 
 ### Bug Fixes
