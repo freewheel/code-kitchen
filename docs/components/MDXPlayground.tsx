@@ -43,8 +43,8 @@ let typesLoaded = false;
 // Ref
 // https://github1s.com/reactjs/reactjs.org/blob/main/beta/src/components/MDX/Sandpack/index.tsx
 
-const reactTyping = require("!raw-loader?esModule=false!@types/react/index.d.ts");
-const demoLibSrc = require("!raw-loader?esModule=false!demo-lib/index.tsx");
+const reactTyping = require("!raw-loader?esModule=false!../node_modules/@types/react/index.d.ts");
+const demoLibSrc = require("!raw-loader?esModule=false!../node_modules/demo-lib/index.tsx");
 
 const filePrefix = "file:///";
 const typesPrefix = "node_modules/@types";

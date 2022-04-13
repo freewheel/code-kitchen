@@ -1,4 +1,4 @@
-.code-kitchen-root {
+:root {
   --code-kitchen-background: #fff;
   --code-kitchen-head-height: 34px;
   --code-kitchen-border-color: rgb(229 231 235);
@@ -8,7 +8,9 @@
   --code-kitchen-error-color: #b91c1c;
   --code-kitchen-fullscreen-padding: 20px;
   --code-kitchen-preview-padding: 12px;
+}
 
+.code-kitchen-root {
   background-color: var(--code-kitchen-background);
   border-radius: var(--code-kitchen-border-radius);
   border: 1px solid var(--code-kitchen-border-color);
@@ -33,6 +35,12 @@
 .code-kitchen-files-editor-panel {
   display: flex;
   position: relative;
+  background-color: #fff;
+}
+
+.code-kitchen-root[data-dir="v"] .code-kitchen-files-editor-panel {
+  border-bottom-left-radius: var(--code-kitchen-border-radius);
+  border-bottom-right-radius: var(--code-kitchen-border-radius);
 }
 
 .code-kitchen-monaco-editor-anchor {
@@ -143,7 +151,6 @@
   display: flex;
   flex-flow: column;
   position: relative;
-  overflow: auto;
 }
 
 .code-kitchen-preview-panel-header {
@@ -165,7 +172,6 @@
 .code-kitchen-error-toggle {
   font-size: 28px;
   position: absolute;
-  z-index: 10;
   right: 10px;
   bottom: 10px;
   cursor: pointer;
@@ -180,7 +186,6 @@
 .code-kitchen-preview-panel-preview-error {
   position: absolute;
   overflow: auto;
-  z-index: 10;
   background-color: var(--code-kitchen-error-color);
   font-family: monospace;
   padding: 12px;
@@ -222,19 +227,6 @@
 /* Error states */
 .code-kitchen-root[data-show-error] .code-kitchen-error-toggle {
   color: #fff;
-}
-
-/* Fullscreen */
-.code-kitchen-root[data-fullscreen] {
-  position: fixed;
-  top: var(--code-kitchen-fullscreen-padding);
-  left: var(--code-kitchen-fullscreen-padding);
-  height: calc(100% - 2 * var(--code-kitchen-fullscreen-padding));
-  width: calc(100% - 2 * var(--code-kitchen-fullscreen-padding));
-}
-
-.code-kitchen-root[data-fullscreen][data-dir="v"] {
-  min-height: 640px;
 }
 
 /* Horizontal */
@@ -281,9 +273,34 @@
   border-top-right-radius: var(--code-kitchen-border-radius);
 }
 
+/* Fullscreen */
+.code-kitchen-root[data-fullscreen] {
+  height: calc(100% - 2 * var(--code-kitchen-fullscreen-padding));
+}
+
+.code-kitchen-root[data-fullscreen][data-dir="v"] {
+  min-height: 640px;
+}
+
 .code-kitchen-portal {
-  position: relative;
+  overflow: auto;
+  overscroll-behavior: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: 99999;
+}
+
+.code-kitchen-portal .code-kitchen-root {
+  margin: var(--code-kitchen-fullscreen-padding);
+}
+
+.code-kitchen-root[data-dir="v"][data-fullscreen]
+  .code-kitchen-files-editor-panel {
+  position: sticky;
+  bottom: 0;
 }
 
 /*********/

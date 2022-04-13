@@ -158,6 +158,9 @@ export function Playground({
             </div>
           </div>
           <div className="code-kitchen-preview-panel-preview-container">
+            <div className="code-kitchen-preview-panel-preview-content">
+              {bundling && !Preview ? "loading..." : Preview && <Preview />}
+            </div>
             {error && (
               <div
                 className="code-kitchen-preview-panel-preview-error"
@@ -169,9 +172,6 @@ export function Playground({
                 <pre>{error.toString()}</pre>
               </div>
             )}
-            <div className="code-kitchen-preview-panel-preview-content">
-              {bundling && !Preview ? "loading..." : Preview && <Preview />}
-            </div>
           </div>
           {error && (
             <div
