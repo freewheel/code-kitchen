@@ -1,10 +1,10 @@
 # Code Kitchen 🧑‍🍳
 
+**Code Kitchen** is a React live-coding playground which allows the developers to embed React component demos into a React UI library’s web documents.
+
 <a href="http://npmjs.com/package/code-kitchen"><img src="https://img.shields.io/npm/v/code-kitchen"></img></a>
 <a href="https://github.com/freewheel/code-kitchen/blob/main/LICENSE"><img src="https://img.shields.io/github/license/freewheel/code-kitchen"></img></a>
 [![CI](https://github.com/freewheel/code-kitchen/actions/workflows/ci.yml/badge.svg)](https://github.com/freewheel/code-kitchen/actions/workflows/ci.yml)
-
-**Code Kitchen** is a React live-coding playground which allows the developers to embed React component demos into a React UI library’s web documents.
 
 Compared to other solutions, it supports the following features:
 
