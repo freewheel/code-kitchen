@@ -9,7 +9,7 @@ import {
 } from "stylis";
 import { globalConfig } from "./config";
 import { urlJoin } from "./path";
-import { PlaygroundInputFile } from "./types";
+import { InputFile } from "./types";
 import { inferLoader } from "./utils";
 
 function injectCSS(css: string, id: string) {
@@ -40,6 +40,7 @@ function compileCssModule(css: string, buildId: string) {
                 ? [...element.props]
                 : [element.props]
             ).map((prop) => {
+              // TODO: this is a es2021 feature
               return prop.replaceAll(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/g, (m) => {
                 const varName = m.slice(1);
                 if (!classMapping[varName]) {
@@ -131,10 +132,7 @@ const RESOLVE_EXTENSIONS = [".tsx", ".ts", ".jsx", ".js", ""];
 
 const RESOLVE_NAMESPACE = "playground-input";
 
-function resolvePlugin(
-  files: PlaygroundInputFile[],
-  buildId: string
-): esbuild.Plugin {
+function resolvePlugin(files: InputFile[], buildId: string): esbuild.Plugin {
   return {
     name: "resolve",
     setup(build) {
@@ -201,7 +199,7 @@ function resolvePlugin(
   };
 }
 
-export async function bundle(files: PlaygroundInputFile[], buildId: string) {
+export async function bundle(files: InputFile[], buildId: string) {
   if (!files.length || files.length === 0 || !buildId) {
     return;
   }

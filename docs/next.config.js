@@ -29,6 +29,7 @@ module.exports = async () => {
 
   const withTM = require("next-transpile-modules")([
     "code-kitchen",
+    "@code-kitchen/bundler",
     "demo-lib",
   ]);
 

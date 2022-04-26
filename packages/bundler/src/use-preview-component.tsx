@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { bundle } from "./bundle";
-import { PlaygroundInputFile } from "./types";
+import { InputFile } from "./types";
 
 export const errorBoundary = (
   id: string,
@@ -69,7 +69,7 @@ const generatePreviewComponent = (
 
 export const usePreviewComponent = (
   id: string,
-  files: PlaygroundInputFile[],
+  files: InputFile[],
   require: (key: string) => any
 ) => {
   const [bundling, setBundling] = React.useState(false);

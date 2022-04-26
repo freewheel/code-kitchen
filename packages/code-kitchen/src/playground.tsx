@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import { usePreviewComponent } from "@code-kitchen/bundler";
+
 import { FilesEditor } from "./files-editor";
 import {
   ErrorIcon,
@@ -11,8 +13,7 @@ import {
   RotateToVerticalIcon,
   ShowCodeIcon,
 } from "./icons";
-import { PlaygroundInputFile } from "./types";
-import { usePreviewComponent } from "./use-preview-component";
+import { InputFile } from "./types";
 import { genRandomStr } from "./utils";
 
 function useDebouncedValue<T>(value: T, delay: number) {
@@ -89,7 +90,7 @@ export function Playground({
   dir: defaultDir = "h",
 }: {
   className?: string;
-  initialFiles: PlaygroundInputFile[];
+  initialFiles: InputFile[];
   require: (key: string) => any;
   live?: boolean;
   dir?: "v" | "h";

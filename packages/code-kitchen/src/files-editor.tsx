@@ -1,11 +1,11 @@
+import { inferLanguage } from "@code-kitchen/bundler";
 import { deepEqual } from "fast-equals";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { join } from "./path";
-import { PlaygroundInputFile } from "./types";
+import { InputFile } from "./types";
 import { useMonaco } from "./use-monaco";
-import { inferLanguage } from "./utils";
 
-function useModels(id: string, files: PlaygroundInputFile[]) {
+function useModels(id: string, files: InputFile[]) {
   const monaco = useMonaco();
   const modelsRef = useRef<import("monaco-editor").editor.IModel[] | null>(
     null
@@ -57,7 +57,7 @@ function useModels(id: string, files: PlaygroundInputFile[]) {
 function useMonacoEditor(
   id: string,
   ref: React.RefObject<HTMLElement>,
-  files: PlaygroundInputFile[],
+  files: InputFile[],
   onChange: (code: string, filename: string) => void,
   activeFileName: string
 ) {
@@ -136,14 +136,14 @@ export function FilesEditor({
   onChange,
 }: {
   id: string;
-  initialFiles: PlaygroundInputFile[];
-  files: PlaygroundInputFile[];
-  onChange: (newFiles: PlaygroundInputFile[]) => void;
+  initialFiles: InputFile[];
+  files: InputFile[];
+  onChange: (newFiles: InputFile[]) => void;
 }) {
   const filenames = files.filter((f) => !f.hidden).map((f) => f.filename);
   const [activeTab, setActiveTab] = useState(filenames[0]);
   const editorWrapperRef = useRef<HTMLDivElement>(null);
-  const filesRef = useRef<PlaygroundInputFile[]>(files);
+  const filesRef = useRef<InputFile[]>(files);
 
   React.useEffect(() => {
     filesRef.current = files;

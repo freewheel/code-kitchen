@@ -14,12 +14,13 @@
     "@mdx-js/loader": "^2.1.1",
     "@mdx-js/react": "^2.1.1",
     "@next/mdx": "^12.1.5",
-    "@types/react": "^18.0.3",
+    "@types/react": "^18.0.7",
     "@types/react-dom": "^18.0.0",
-    "autoprefixer": "^10.4.4",
+    "autoprefixer": "^10.4.5",
     "classnames": "^2.3.1",
     "code-kitchen": "workspace:*",
-    "copy-webpack-plugin": "^10.1.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "@code-kitchen/bundler": "workspace:*",
     "demo-lib": "workspace:*",
     "next": "^12.1.5",
     "next-transpile-modules": "^9.0.0",
@@ -33,9 +34,9 @@
     "webpack": "^5.72.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.20.2",
-    "esbuild-wasm": "^0.14.36",
+    "@playwright/test": "^1.21.1",
+    "esbuild-wasm": "^0.14.38",
     "monaco-editor": "^0.33.0",
-    "playwright": "^1.20.2"
+    "playwright": "^1.21.1"
   }
 }
