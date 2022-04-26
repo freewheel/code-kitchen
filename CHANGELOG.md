@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/freewheel/code-kitchen/compare/v1.0.9...v1.1.0) (2022-04-26)
+
+### Features
+
+- modulalize bundler ([77f7d5c](https://github.com/freewheel/code-kitchen/commit/77f7d5c5565547cc59134bca5c9f52ac92f667a8))
+
 ## [1.0.9](https://github.com/freewheel/code-kitchen/compare/v1.0.8...v1.0.9) (2022-04-13)
 
 ### Bug Fixes
