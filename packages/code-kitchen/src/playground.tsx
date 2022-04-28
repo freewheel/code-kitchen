@@ -92,16 +92,36 @@ const BodyPortal = ({
   );
 };
 
+const persistFiles = (id: string, files: InputFile[]) => {
+  const filesStr = JSON.stringify(files);
+  sessionStorage.setItem("code-kitchen:" + id, filesStr);
+};
+
+const recoverFiles = (id: string): InputFile[] | undefined => {
+  try {
+    return JSON.parse(
+      sessionStorage.getItem("code-kitchen:" + id) ?? "undefined"
+    );
+  } catch {
+    return undefined;
+  }
+};
+
+const safeId = (id?: string) =>
+  Buffer.from(id ? id : genRandomStr()).toString("base64");
+
 export function Playground({
   initialFiles,
   require,
   style,
   className,
   name,
+  id: _id, // if id is given, it will be used as the key for the sessionStorage
   allowDisconnect = false,
   live: defaultLive = true,
   dir: defaultDir = "h",
 }: {
+  id?: string;
   className?: string;
   initialFiles: InputFile[];
   require: (key: string) => any;
@@ -111,7 +131,9 @@ export function Playground({
   style?: React.CSSProperties;
   name?: string;
 }) {
-  const [id] = React.useState("code-kitchen-" + genRandomStr());
+  const [id] = React.useState(
+    () => "code-kitchen-" + safeId(_id ?? genRandomStr())
+  );
   const [files, setFiles] = React.useState(initialFiles);
   const [dir, setDir] = React.useState<"v" | "h">(defaultDir);
   const [connected, setConnected] = React.useState(true);
@@ -132,8 +154,17 @@ export function Playground({
   const realShowError = error && (showError || !Preview);
 
   React.useEffect(() => {
-    setFiles(initialFiles);
-  }, [initialFiles]);
+    if (_id) {
+      const persisted = recoverFiles(id);
+      setFiles(persisted ?? initialFiles);
+    }
+  }, [_id, id, initialFiles]);
+
+  React.useEffect(() => {
+    if (_id) {
+      persistFiles(id, files);
+    }
+  }, [files, _id, id]);
 
   return (
     <BodyPortal portal={fullScreen ? "body" : undefined}>

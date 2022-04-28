@@ -58,9 +58,10 @@ export default () => {
 
 export default function PlaygroundPage() {
   useInitMonaco();
-
+  const id = React.useId();
   return (
     <Playground
+      id={id}
       name="Playground"
       className="h-screen"
       require={customRequire}

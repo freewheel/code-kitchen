@@ -4,7 +4,7 @@ import cx from "classnames";
 import { Playground as ReactPlayground, setup } from "code-kitchen";
 import esbuildWasmMeta from "esbuild-wasm/package.json";
 import monacoEditorMeta from "monaco-editor/package.json";
-import React from "react";
+import React, { useId } from "react";
 import dependencies from "./dependencies";
 import { pre } from "./mdx";
 import { useInitMonaco } from "./use-init-monaco";
@@ -57,6 +57,7 @@ export const Playground = ({
   const hasMounted = useHasMounted();
 
   useInitMonaco();
+  const id = useId();
 
   if (!hasMounted) {
     return null;
@@ -103,6 +104,7 @@ export const Playground = ({
   return (
     <div className={cx("my-8")}>
       <ReactPlayground
+        id={id}
         name={name}
         initialFiles={files}
         require={customRequire}
