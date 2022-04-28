@@ -3,28 +3,6 @@ module.exports = async () => {
   const path = require("path");
   const rimraf = require("rimraf");
 
-  // unist-util-visit is an esm and has to be imported instead of require
-  const { visit } = await import("unist-util-visit");
-
-  const codeMetaPlugin = () => {
-    return (tree) => {
-      visit(tree, "element", (node) => {
-        if (node.tagName === "code" && node.data && node.data.meta) {
-          node.properties.metastring = node.data.meta;
-        }
-      });
-    };
-  };
-
-  const withMDX = require("@next/mdx")({
-    extension: /\.mdx?$/,
-    options: {
-      remarkPlugins: [],
-      rehypePlugins: [codeMetaPlugin],
-      providerImportSource: "@mdx-js/react",
-    },
-  });
-
   const CopyWebpackPlugin = require("copy-webpack-plugin");
 
   const withTM = require("next-transpile-modules")([
@@ -49,6 +27,15 @@ module.exports = async () => {
       ignoreDuringBuilds: true,
     },
     assetPrefix: isProd ? "/code-kitchen/" : "",
+    async redirects() {
+      return [
+        {
+          source: "/",
+          destination: "/home",
+          permanent: false,
+        },
+      ];
+    },
     webpack: (config, { webpack }) => {
       const monacoEditorVersion = require("monaco-editor/package.json").version;
       const esbuildWasmVersion = require("esbuild-wasm/package.json").version;
@@ -107,5 +94,5 @@ module.exports = async () => {
       return config;
     },
   };
-  return withTM(withMDX(nextConfig));
+  return withTM(nextConfig);
 };

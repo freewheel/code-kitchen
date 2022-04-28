@@ -90,6 +90,8 @@ export const Playground = ({
 
   const codeSnippets = React.Children.toArray(children) as React.ReactElement[];
 
+  console.log(codeSnippets);
+
   const files = codeSnippets
     .map((codeSnippet: React.ReactElement, index) => {
       if (codeSnippet.type !== "pre" && codeSnippet.type !== pre) {

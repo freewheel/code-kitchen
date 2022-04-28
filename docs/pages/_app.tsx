@@ -3,14 +3,7 @@ import * as React from "react";
 import Head from "next/head";
 import Script from "next/script";
 
-import "./tailwind.css";
-
-import { MDXProvider } from "@mdx-js/react";
-import { Playground } from "../components/MDXPlayground";
-
-import * as mdxComponents from "../components/mdx";
-
-const components = { Playground, ...mdxComponents };
+import "../styles/tailwind.css";
 
 const App = ({ Component, pageProps }) => {
   return (
@@ -31,11 +24,9 @@ const App = ({ Component, pageProps }) => {
           />
         )}
       </Head>
-      <MDXProvider components={components}>
-        <main className="max-w-3xl mx-auto py-12 px-8">
-          <Component {...pageProps} />
-        </main>
-      </MDXProvider>
+      <main className="max-w-3xl mx-auto py-12 px-8">
+        <Component {...pageProps} />
+      </main>
     </>
   );
 };
