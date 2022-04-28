@@ -107,8 +107,15 @@ const recoverFiles = (id: string): InputFile[] | undefined => {
   }
 };
 
-const safeId = (id?: string) =>
-  Buffer.from(id ? id : genRandomStr()).toString("base64");
+const hash = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; ++i)
+    hash = Math.imul(31, hash) + str.charCodeAt(i);
+
+  return "" + (hash | 0);
+};
+
+const safeId = (id?: string) => hash(id ? id : genRandomStr());
 
 export function Playground({
   initialFiles,
