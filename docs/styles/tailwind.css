@@ -6,7 +6,3 @@
 .code-kitchen-preview-panel-header {
   @apply font-[montserrat];
 }
-
-body {
-  @apply bg-gradient-to-tr from-[#fdfbfb] to-[#ebedee];
-}

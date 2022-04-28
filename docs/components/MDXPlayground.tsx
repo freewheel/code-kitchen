@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable react/prop-types */
 import cx from "classnames";
-import { Playground as ReactPlayground, setup, useMonaco } from "code-kitchen";
+import { Playground as ReactPlayground, setup } from "code-kitchen";
 import esbuildWasmMeta from "esbuild-wasm/package.json";
 import monacoEditorMeta from "monaco-editor/package.json";
 import React from "react";
 import dependencies from "./dependencies";
-
 import { pre } from "./mdx";
+import { useInitMonaco } from "./use-init-monaco";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -38,17 +38,6 @@ const customRequire = (key: string) => {
   throw new Error("DEP: " + key + " not found");
 };
 
-let typesLoaded = false;
-
-// Ref
-// https://github1s.com/reactjs/reactjs.org/blob/main/beta/src/components/MDX/Sandpack/index.tsx
-
-const reactTyping = require("!raw-loader?esModule=false!../node_modules/@types/react/index.d.ts");
-const demoLibSrc = require("!raw-loader?esModule=false!../node_modules/demo-lib/index.tsx");
-
-const filePrefix = "file:///";
-const typesPrefix = "node_modules/@types";
-
 export const Playground = ({
   children,
   className,
@@ -66,31 +55,14 @@ export const Playground = ({
   dir?: "v" | "h";
 }) => {
   const hasMounted = useHasMounted();
-  const monaco = useMonaco();
-  React.useEffect(() => {
-    if (typesLoaded || !monaco) {
-      return;
-    }
 
-    const allTypes = [
-      [`${filePrefix}/${typesPrefix}/react/index.d.ts`, reactTyping],
-      [`${filePrefix}/demo-lib/index.tsx`, demoLibSrc],
-    ];
-
-    allTypes.forEach(([path, content]) => {
-      monaco.languages.typescript.typescriptDefaults.addExtraLib(content, path);
-    });
-
-    typesLoaded = true;
-  }, [monaco]);
+  useInitMonaco();
 
   if (!hasMounted) {
     return null;
   }
 
   const codeSnippets = React.Children.toArray(children) as React.ReactElement[];
-
-  console.log(codeSnippets);
 
   const files = codeSnippets
     .map((codeSnippet: React.ReactElement, index) => {

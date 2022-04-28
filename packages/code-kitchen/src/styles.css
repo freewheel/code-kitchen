@@ -6,6 +6,8 @@
   --code-kitchen-primary-color: #584984;
   --code-kitchen-button-text-color: rgb(101, 102, 102);
   --code-kitchen-error-color: #b91c1c;
+  --code-kitchen-disconnected-color: #ffae00;
+
   --code-kitchen-fullscreen-padding: 20px;
   --code-kitchen-preview-padding: 12px;
 }
@@ -134,8 +136,14 @@
   margin-left: 8px;
 }
 
+.code-kitchen-disconnected
+  .code-kitchen-preview-panel-header-action-button[title="Toggle Disconnect"] {
+  color: white;
+  background-color: var(--code-kitchen-disconnected-color);
+}
+
 .code-kitchen-preview-panel-header-action-button:hover {
-  background-color: #e5e7eb;
+  opacity: 0.5;
 }
 
 .code-kitchen-preview-panel-header-actions {
@@ -166,6 +174,9 @@
 .code-kitchen-preview-panel-header-label {
   font-weight: 600;
   font-size: 12px;
+}
+
+.code-kitchen-spacer {
   flex: 1;
 }
 
@@ -205,6 +216,10 @@
   flex-flow: column;
   flex: 1;
   position: relative;
+}
+
+.code-kitchen-disconnected .code-kitchen-preview-panel-preview-container {
+  box-shadow: inset 0 0 1px 2px var(--code-kitchen-disconnected-color);
 }
 
 .code-kitchen-preview-panel-preview-content {

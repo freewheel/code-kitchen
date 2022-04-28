@@ -5,6 +5,8 @@ import { usePreviewComponent } from "@code-kitchen/bundler";
 
 import { FilesEditor } from "./files-editor";
 import {
+  ConnectedIcon,
+  DisconnectedIcon,
   ErrorIcon,
   ExitFullscreenIcon,
   FullscreenIcon,
@@ -19,6 +21,9 @@ import { genRandomStr } from "./utils";
 function useDebouncedValue<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = React.useState(value);
   React.useEffect(() => {
+    if (delay < 0) {
+      return;
+    }
     const id = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
@@ -30,20 +35,27 @@ function useDebouncedValue<T>(value: T, delay: number) {
   return debouncedValue;
 }
 
+const cx = (...args: string[]) => args.filter((s) => s).join(" ");
+
 function ControlButton({
   title,
   icon,
   onClick,
+  className,
 }: {
   title: string;
   icon: React.ReactNode;
   onClick: () => void;
+  className?: string;
 }) {
   return (
     <div
       role="button"
       title={title}
-      className="code-kitchen-preview-panel-header-action-button"
+      className={cx(
+        "code-kitchen-preview-panel-header-action-button",
+        className
+      )}
       onClick={onClick}
     >
       {icon}
@@ -86,6 +98,7 @@ export function Playground({
   style,
   className,
   name,
+  allowDisconnect = false,
   live: defaultLive = true,
   dir: defaultDir = "h",
 }: {
@@ -94,17 +107,22 @@ export function Playground({
   require: (key: string) => any;
   live?: boolean;
   dir?: "v" | "h";
+  allowDisconnect?: boolean;
   style?: React.CSSProperties;
   name?: string;
 }) {
   const [id] = React.useState("code-kitchen-" + genRandomStr());
   const [files, setFiles] = React.useState(initialFiles);
   const [dir, setDir] = React.useState<"v" | "h">(defaultDir);
+  const [connected, setConnected] = React.useState(true);
+
   const [fullScreen, setFullScreen] = React.useState(false);
   const [showCode, setShowCode] = React.useState(defaultLive);
   const [showError, setShowError] = React.useState(false);
 
-  const debouncedFiles = useDebouncedValue(files, 100);
+  const realConnected = connected || !showCode;
+
+  const debouncedFiles = useDebouncedValue(files, realConnected ? 100 : -1);
   const { Preview, error, bundling } = usePreviewComponent(
     id,
     debouncedFiles,
@@ -121,7 +139,11 @@ export function Playground({
     <BodyPortal portal={fullScreen ? "body" : undefined}>
       <div
         style={style}
-        className={"code-kitchen-root" + (className ? " " + className : "")}
+        className={cx(
+          "code-kitchen-root",
+          !realConnected && "code-kitchen-disconnected",
+          className
+        )}
         data-dir={dir}
         data-fullscreen={fullScreen ? true : undefined}
         data-show-error={realShowError ? true : undefined}
@@ -132,6 +154,14 @@ export function Playground({
             <div className="code-kitchen-preview-panel-header-label">
               {name}
             </div>
+            {showCode && allowDisconnect && (
+              <ControlButton
+                title="Toggle Disconnect"
+                icon={connected ? <ConnectedIcon /> : <DisconnectedIcon />}
+                onClick={() => setConnected((c) => !c)}
+              />
+            )}
+            <div className="code-kitchen-spacer" />
             <div className="code-kitchen-preview-panel-header-actions">
               {showCode && (
                 <ControlButton

@@ -3,6 +3,8 @@ import * as React from "react";
 import Head from "next/head";
 import Script from "next/script";
 
+// eagerly load it
+import "../components/MDXPlayground";
 import "../styles/tailwind.css";
 
 const App = ({ Component, pageProps }) => {
@@ -24,7 +26,7 @@ const App = ({ Component, pageProps }) => {
           />
         )}
       </Head>
-      <main className="max-w-3xl mx-auto py-12 px-8">
+      <main>
         <Component {...pageProps} />
       </main>
     </>

@@ -10,7 +10,7 @@ const components = { Playground, ...mdxComponents };
 
 export default function Post({ source }) {
   return (
-    <div className="wrapper">
+    <div className="max-w-3xl mx-auto py-12 px-8">
       <MDXRemote {...source} components={components} />
     </div>
   );
