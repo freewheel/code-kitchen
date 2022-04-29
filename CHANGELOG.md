@@ -1,3 +1,14 @@
+# [1.2.0](https://github.com/freewheel/code-kitchen/compare/v1.1.0...v1.2.0) (2022-04-29)
+
+### Bug Fixes
+
+- use a simple hash function instead of base64 ([a806bca](https://github.com/freewheel/code-kitchen/commit/a806bca7add54c6b6e8588821461a549e1eb1332))
+
+### Features
+
+- add an option to disconnect code & preview ([295b8a1](https://github.com/freewheel/code-kitchen/commit/295b8a188dd7c64f81e331f0f7e9513f6117c248))
+- allow the user to pass in an ID to cache the inputs ([9ea22e6](https://github.com/freewheel/code-kitchen/commit/9ea22e6b0dfa599a4a54629bd3298542a0cd2a43))
+
 # [1.1.0](https://github.com/freewheel/code-kitchen/compare/v1.0.9...v1.1.0) (2022-04-26)
 
 ### Features
