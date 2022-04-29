@@ -1,6 +1,10 @@
+import Debug from "debug";
 import React, { Component } from "react";
+
 import { bundle } from "./bundle";
 import { InputFile } from "./types";
+
+const debug = Debug("code-kitchen:bundler");
 
 export const errorBoundary = (
   id: string,
@@ -89,7 +93,7 @@ export const usePreviewComponent = (
         }
         setBundling(false);
         // There should be only one file after bundle though
-        console.debug(
+        debug(
           `Bundled code in ${(performance.now() - startTime).toFixed()}ms: `,
           { bundledCode }
         );

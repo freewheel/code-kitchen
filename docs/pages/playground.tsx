@@ -62,6 +62,7 @@ export default function PlaygroundPage() {
   return (
     <Playground
       id={id}
+      allowDisconnect
       name="Playground"
       className="h-screen"
       require={customRequire}

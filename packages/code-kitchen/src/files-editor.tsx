@@ -1,6 +1,7 @@
 import { inferLanguage } from "@code-kitchen/bundler";
 import { deepEqual } from "fast-equals";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { debug } from "./debug";
 import { join } from "./path";
 import { InputFile } from "./types";
 import { useMonaco } from "./use-monaco";
@@ -67,10 +68,11 @@ function useMonacoEditor(
     import("monaco-editor").editor.IStandaloneCodeEditor | null
   >(null);
 
-  const stateCacheRef = useRef(new Map());
+  const [stateCache] = useState(() => new Map());
 
   useEffect(() => {
     if (monaco && ref.current) {
+      // TODO: allow users to overwrite this?
       const newEditor = monaco.editor.create(ref.current, {
         minimap: { enabled: false },
         scrollBeyondLastLine: false,
@@ -103,7 +105,6 @@ function useMonacoEditor(
   }, [monaco, ref]);
 
   useEffect(() => {
-    const stateCache = stateCacheRef.current;
     const activeModel = models?.find((m) =>
       m.uri.path.endsWith(activeFileName)
     );
@@ -125,7 +126,7 @@ function useMonacoEditor(
         listener.dispose();
       };
     }
-  }, [activeFileName, editor, models, onChange]);
+  }, [activeFileName, editor, models, onChange, stateCache]);
   return editor;
 }
 
@@ -156,22 +157,24 @@ export function FilesEditor({
       if (idx !== -1) {
         newFiles[idx] = { ...newFiles[idx], code: newCode };
       }
+      debug("tab #" + idx + " changed");
       onChange(newFiles);
     },
     [onChange]
   );
 
   const activeFile = files.find((f) => f.filename === activeTab);
-
   const dirty = !deepEqual(initialFiles, files);
 
   const doReset = useCallback(() => {
     onChange(initialFiles);
+    debug("reset");
   }, [onChange, initialFiles]);
 
   useEffect(() => {
     if (!activeFile && files) {
       setActiveTab(filenames[0]);
+      debug("change tab to " + filenames[0]);
     }
   }, [activeFile, activeTab, filenames, files]);
 

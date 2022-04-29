@@ -18,6 +18,8 @@ import {
 import { InputFile } from "./types";
 import { genRandomStr } from "./utils";
 
+import { debug } from "./debug";
+
 function useDebouncedValue<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = React.useState(value);
   React.useEffect(() => {
@@ -56,7 +58,10 @@ function ControlButton({
         "code-kitchen-preview-panel-header-action-button",
         className
       )}
-      onClick={onClick}
+      onClick={() => {
+        onClick();
+        debug('ControlButton clicked - "' + title + '"');
+      }}
     >
       {icon}
     </div>
@@ -164,6 +169,9 @@ export function Playground({
     if (_id) {
       const persisted = recoverFiles(id);
       setFiles(persisted ?? initialFiles);
+      if (persisted) {
+        debug("Recovered files from sessionStorage");
+      }
     }
   }, [_id, id, initialFiles]);
 

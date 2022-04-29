@@ -1,9 +1,8 @@
 import monacoLoader from "@monaco-editor/loader";
 import { useEffect, useState } from "react";
-// TODO: this should be fixed for next js
-// import "monaco-editor/min/vs/editor/editor.main.css";
 import { globalConfig } from "./config";
 import { urlJoin } from "./path";
+import { debug } from "./debug";
 
 const filePrefix = "file:///";
 
@@ -16,6 +15,7 @@ export function useMonaco() {
   useEffect(() => {
     if (!_monacoInitialized) {
       _monacoInitialized = (async () => {
+        debug("useMonaco: initializing monaco");
         monacoLoader.config({
           paths: {
             vs: urlJoin(globalConfig.monacoEditorPath, "vs"),
@@ -72,6 +72,7 @@ export function useMonaco() {
         tsLang.javascriptDefaults.setCompilerOptions(tsConfig);
         tsDefaults.setCompilerOptions(tsConfig);
         _cached_monaco = _monaco;
+        debug("useMonaco: monaco initialized");
       })();
     }
 

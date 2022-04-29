@@ -7,10 +7,13 @@ import {
   serialize,
   stringify,
 } from "stylis";
+import Debug from "debug";
 import { globalConfig } from "./config";
 import { urlJoin } from "./path";
 import { InputFile } from "./types";
 import { inferLoader } from "./utils";
+
+const debug = Debug("code-kitchen:bundler");
 
 function injectCSS(css: string, id: string) {
   // Append or replace the styles for ID
@@ -225,7 +228,7 @@ export async function bundle(files: InputFile[], buildId: string) {
     } else if (error instanceof Error) {
       buildError = error.message;
     } else {
-      console.error(error);
+      debug(error);
     }
     if (buildError) {
       throw new Error(buildError);

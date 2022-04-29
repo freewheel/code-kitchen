@@ -110,6 +110,7 @@ importers:
   packages/bundler:
     specifiers:
       '@types/stylis': ^4.0.2
+      debug: ^4.3.4
       esbuild-wasm: ^0.14.38
       fast-equals: ^3.0.1
       react: ^18.1.0
@@ -117,6 +118,8 @@ importers:
       rimraf: ^3.0.2
       stylis: ^4.1.1
       tsup: ^5.12.6
+    dependencies:
+      debug: 4.3.4
     devDependencies:
       '@types/stylis': 4.0.2
       esbuild-wasm: 0.14.38
@@ -131,6 +134,7 @@ importers:
     specifiers:
       '@code-kitchen/bundler': workspace:*
       '@monaco-editor/loader': ^1.3.1
+      debug: ^4.3.4
       esbuild-wasm: ^0.14.38
       fast-equals: ^3.0.1
       monaco-editor: ^0.33.0
@@ -140,6 +144,7 @@ importers:
       tsup: ^5.12.6
     dependencies:
       '@monaco-editor/loader': 1.3.1_monaco-editor@0.33.0
+      debug: 4.3.4
     devDependencies:
       '@code-kitchen/bundler': link:../bundler
       esbuild-wasm: 0.14.38
