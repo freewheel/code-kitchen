@@ -37,12 +37,17 @@
 .code-kitchen-files-editor-panel {
   display: flex;
   position: relative;
-  background-color: #fff;
+  background-color: var(--code-kitchen-background);
 }
 
 .code-kitchen-root[data-dir="v"] .code-kitchen-files-editor-panel {
   border-bottom-left-radius: var(--code-kitchen-border-radius);
   border-bottom-right-radius: var(--code-kitchen-border-radius);
+}
+
+.code-kitchen-root[data-dir="h"] .code-kitchen-files-editor-panel {
+  border-top-left-radius: var(--code-kitchen-border-radius);
+  border-bottom-left-radius: var(--code-kitchen-border-radius);
 }
 
 .code-kitchen-monaco-editor-anchor {
@@ -128,7 +133,7 @@
   border-radius: 4px;
   color: var(--code-kitchen-button-text-color);
   border: 1px solid rgb(197, 199, 200);
-  background-color: #fff;
+  background-color: var(--code-kitchen-background);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -205,7 +210,7 @@
   left: 0px;
   height: 100%;
   width: 100%;
-  color: #fff;
+  color: var(--code-kitchen-background);
   font-size: 12px;
   transition: all 0.1s;
   line-height: 20px;
