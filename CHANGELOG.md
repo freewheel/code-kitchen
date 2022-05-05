@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/freewheel/code-kitchen/compare/v1.2.0...v1.2.1) (2022-05-05)
+
+### Bug Fixes
+
+- corner radius styles ([93763a3](https://github.com/freewheel/code-kitchen/commit/93763a3196247481011648b3ba9da9936e46a0a3))
+- use debug to output logs ([54fa2bb](https://github.com/freewheel/code-kitchen/commit/54fa2bbff203092aeb38133e7edcdc28990a4a55))
+
 # [1.2.0](https://github.com/freewheel/code-kitchen/compare/v1.1.0...v1.2.0) (2022-04-29)
 
 ### Bug Fixes
