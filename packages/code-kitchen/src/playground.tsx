@@ -1,4 +1,5 @@
 import * as React from "react";
+import { deepEqual } from "fast-equals";
 import * as ReactDOM from "react-dom";
 
 import { usePreviewComponent } from "@code-kitchen/bundler";
@@ -102,6 +103,10 @@ const persistFiles = (id: string, files: InputFile[]) => {
   sessionStorage.setItem("code-kitchen:" + id, filesStr);
 };
 
+const clearPersistedFiles = (id: string) => {
+  sessionStorage.removeItem("code-kitchen:" + id);
+};
+
 const recoverFiles = (id: string): InputFile[] | undefined => {
   try {
     return JSON.parse(
@@ -161,7 +166,11 @@ export function Playground({
     (files: InputFile[]) => {
       setFiles(files);
       if (cacheFiles) {
-        persistFiles(id, files);
+        if (!deepEqual(files, initialFiles)) {
+          persistFiles(id, files);
+        } else {
+          clearPersistedFiles(id);
+        }
       }
     },
     [id, cacheFiles]
