@@ -1,3 +1,9 @@
+## [1.2.2](https://github.com/freewheel/code-kitchen/compare/v1.2.1...v1.2.2) (2022-05-06)
+
+### Bug Fixes
+
+- do not cache files on first render ([2d1c6ec](https://github.com/freewheel/code-kitchen/commit/2d1c6ec5e561567f1621632e7ca76e392a115a84))
+
 ## [1.2.1](https://github.com/freewheel/code-kitchen/compare/v1.2.0...v1.2.1) (2022-05-05)
 
 ### Bug Fixes
