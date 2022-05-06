@@ -1,3 +1,9 @@
+## [1.2.3](https://github.com/freewheel/code-kitchen/compare/v1.2.2...v1.2.3) (2022-05-06)
+
+### Bug Fixes
+
+- remove cache on reset ([a21222a](https://github.com/freewheel/code-kitchen/commit/a21222a1be7a92812dee87ec9222622f35f18a1a))
+
 ## [1.2.2](https://github.com/freewheel/code-kitchen/compare/v1.2.1...v1.2.2) (2022-05-06)
 
 ### Bug Fixes
