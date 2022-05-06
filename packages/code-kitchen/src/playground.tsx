@@ -159,6 +159,7 @@ export function Playground({
   const [fullScreen, setFullScreen] = React.useState(false);
   const [showCode, setShowCode] = React.useState(defaultLive);
   const [showError, setShowError] = React.useState(false);
+  const persistedRef = React.useRef(false);
 
   const realConnected = connected || !showCode;
 
@@ -168,8 +169,10 @@ export function Playground({
       if (cacheFiles) {
         if (!deepEqual(files, initialFiles)) {
           persistFiles(id, files);
+          persistedRef.current = true;
         } else {
           clearPersistedFiles(id);
+          persistedRef.current = false;
         }
       }
     },
@@ -187,12 +190,10 @@ export function Playground({
   const realShowError = error && (showError || !Preview);
 
   React.useEffect(() => {
-    if (cacheFiles) {
-      const persisted = recoverFiles(id);
-      setFiles(persisted ?? initialFiles);
-      if (persisted) {
-        debug("Recovered files from sessionStorage");
-      }
+    const recovered = cacheFiles && persistedRef.current && recoverFiles(id);
+    setFiles(recovered || initialFiles);
+    if (recovered) {
+      debug("Recovered files from sessionStorage");
     }
   }, [cacheFiles, id, initialFiles]);
 

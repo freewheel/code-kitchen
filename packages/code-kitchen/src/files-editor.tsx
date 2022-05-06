@@ -146,7 +146,7 @@ export function FilesEditor({
   const editorWrapperRef = useRef<HTMLDivElement>(null);
   const filesRef = useRef<InputFile[]>(files);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     filesRef.current = files;
   });
 
@@ -157,8 +157,10 @@ export function FilesEditor({
       if (idx !== -1) {
         newFiles[idx] = { ...newFiles[idx], code: newCode };
       }
-      debug("tab #" + idx + " changed");
-      onChange(newFiles);
+      if (!deepEqual(newFiles, filesRef.current)) {
+        debug("tab #" + idx + " changed");
+        onChange(newFiles);
+      }
     },
     [onChange]
   );
