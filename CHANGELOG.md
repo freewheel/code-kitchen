@@ -1,3 +1,9 @@
+## [1.2.4](https://github.com/freewheel/code-kitchen/compare/v1.2.3...v1.2.4) (2022-05-06)
+
+### Bug Fixes
+
+- reset code editor on init files change ([7942776](https://github.com/freewheel/code-kitchen/commit/7942776409435fa05b705a6143e088613139fd2a))
+
 ## [1.2.3](https://github.com/freewheel/code-kitchen/compare/v1.2.2...v1.2.3) (2022-05-06)
 
 ### Bug Fixes
