@@ -146,6 +146,7 @@ export function Playground({
   const [id] = React.useState(
     () => "code-kitchen-" + safeId(_id ?? genRandomStr())
   );
+  const cacheFiles = !!_id;
   const [files, setFiles] = React.useState(initialFiles);
   const [dir, setDir] = React.useState<"v" | "h">(defaultDir);
   const [connected, setConnected] = React.useState(true);
@@ -156,7 +157,18 @@ export function Playground({
 
   const realConnected = connected || !showCode;
 
+  const onFilesChange = React.useCallback(
+    (files: InputFile[]) => {
+      setFiles(files);
+      if (cacheFiles) {
+        persistFiles(id, files);
+      }
+    },
+    [id, cacheFiles]
+  );
+
   const debouncedFiles = useDebouncedValue(files, realConnected ? 100 : -1);
+
   const { Preview, error, bundling } = usePreviewComponent(
     id,
     debouncedFiles,
@@ -166,20 +178,14 @@ export function Playground({
   const realShowError = error && (showError || !Preview);
 
   React.useEffect(() => {
-    if (_id) {
+    if (cacheFiles) {
       const persisted = recoverFiles(id);
       setFiles(persisted ?? initialFiles);
       if (persisted) {
         debug("Recovered files from sessionStorage");
       }
     }
-  }, [_id, id, initialFiles]);
-
-  React.useEffect(() => {
-    if (_id) {
-      persistFiles(id, files);
-    }
-  }, [files, _id, id]);
+  }, [cacheFiles, id, initialFiles]);
 
   return (
     <BodyPortal portal={fullScreen ? "body" : undefined}>
@@ -266,7 +272,7 @@ export function Playground({
             id={id}
             initialFiles={initialFiles}
             files={files}
-            onChange={setFiles}
+            onChange={onFilesChange}
           />
         )}
       </div>
