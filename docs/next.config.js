@@ -36,6 +36,9 @@ module.exports = async () => {
         },
       ];
     },
+    /**
+     * @param {import('webpack').Configuration} config
+     */
     webpack: (config, { webpack }) => {
       const monacoEditorVersion = require("monaco-editor/package.json").version;
       const esbuildWasmVersion = require("esbuild-wasm/package.json").version;
@@ -45,6 +48,11 @@ module.exports = async () => {
 
       rimraf.sync(publicLibDir);
       rimraf.sync(publicTypesDir);
+
+      // Fix "Module not found: ESM packages (supports-color) need to be imported." issue
+      Object.assign(config.resolve.alias, {
+        debug: require.resolve("debug/src/browser.js"),
+      });
 
       config.plugins.push(
         new CopyWebpackPlugin({
