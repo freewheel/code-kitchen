@@ -16,7 +16,7 @@ Compared to other solutions, it supports the following features:
 
 ## Demo 🎩
 
-Check out the demo at https://freewheel.github.io/code-kitchen/
+Check out the demo at https://freewheel.github.io/code-kitchen/home
 
 ## Usage
 
