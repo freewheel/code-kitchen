@@ -94,10 +94,9 @@ function useMonacoEditor(
         },
       });
       setEditor(newEditor);
-      window.__monaco_editors__ = {
-        ...(window.__monaco_editors__ ?? {}),
-        [id]: newEditor,
-      };
+      if (window.__monaco_editors__) {
+        window.__monaco_editors__[id] = newEditor;
+      }
       newEditor.onDidFocusEditorText(() => {
         newEditor?.updateOptions({
           scrollbar: {
@@ -113,7 +112,9 @@ function useMonacoEditor(
         });
       });
       return () => {
-        window.__monaco_editors__[id] = undefined;
+        if (window.__monaco_editors__) {
+          window.__monaco_editors__[id] = undefined;
+        }
         newEditor.dispose();
       };
     }
