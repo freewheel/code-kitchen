@@ -1,3 +1,9 @@
+## [1.2.6](https://github.com/freewheel/code-kitchen/compare/v1.2.5...v1.2.6) (2022-05-25)
+
+### Bug Fixes
+
+- expose **monaco_editors** to global ([12ed49e](https://github.com/freewheel/code-kitchen/commit/12ed49e7ffadb9c6c10c491bcdff0d6d5da425bc))
+
 ## [1.2.5](https://github.com/freewheel/code-kitchen/compare/v1.2.4...v1.2.5) (2022-05-25)
 
 ### Bug Fixes
