@@ -1,3 +1,9 @@
+## [1.2.7](https://github.com/freewheel/code-kitchen/compare/v1.2.6...v1.2.7) (2022-05-25)
+
+### Bug Fixes
+
+- will only set **monaco_editors** when needed ([aa44238](https://github.com/freewheel/code-kitchen/commit/aa44238013e33b84ee7767d56353c09822a49cf1))
+
 ## [1.2.6](https://github.com/freewheel/code-kitchen/compare/v1.2.5...v1.2.6) (2022-05-25)
 
 ### Bug Fixes
