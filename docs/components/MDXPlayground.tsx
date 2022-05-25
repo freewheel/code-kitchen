@@ -102,16 +102,14 @@ export const Playground = ({
     })
     .filter(Boolean);
   return (
-    <div className={cx("my-8")}>
-      <ReactPlayground
-        id={id}
-        name={name}
-        initialFiles={files}
-        require={customRequire}
-        className={className}
-        live={live}
-        dir={dir}
-      />
-    </div>
+    <ReactPlayground
+      id={id}
+      name={name}
+      initialFiles={files}
+      require={customRequire}
+      className={cx(className, "my-8 h-[512px] relative")}
+      live={live}
+      dir={dir}
+    />
   );
 };

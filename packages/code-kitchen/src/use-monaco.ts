@@ -1,8 +1,8 @@
 import monacoLoader from "@monaco-editor/loader";
 import { useEffect, useState } from "react";
 import { globalConfig } from "./config";
-import { urlJoin } from "./path";
 import { debug } from "./debug";
+import { urlJoin } from "./path";
 
 const filePrefix = "file:///";
 

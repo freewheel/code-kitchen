@@ -1,9 +1,8 @@
-import * as React from "react";
-import { deepEqual } from "fast-equals";
-import * as ReactDOM from "react-dom";
-
 import { usePreviewComponent } from "@code-kitchen/bundler";
-
+import { deepEqual } from "fast-equals";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { debug } from "./debug";
 import { FilesEditor } from "./files-editor";
 import {
   ConnectedIcon,
@@ -18,8 +17,6 @@ import {
 } from "./icons";
 import { InputFile } from "./types";
 import { genRandomStr } from "./utils";
-
-import { debug } from "./debug";
 
 function useDebouncedValue<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = React.useState(value);
@@ -133,7 +130,7 @@ export function Playground({
   style,
   className,
   name,
-  id: _id, // if id is given, it will be used as the key for the sessionStorage
+  id, // if id is given, it will be used as the key for the sessionStorage
   allowDisconnect = false,
   live: defaultLive = true,
   dir: defaultDir = "h",
@@ -148,10 +145,10 @@ export function Playground({
   style?: React.CSSProperties;
   name?: string;
 }) {
-  const [id] = React.useState(
-    () => "code-kitchen-" + safeId(_id ?? genRandomStr())
+  const [internalId] = React.useState(
+    () => "code-kitchen-" + safeId(id ?? genRandomStr())
   );
-  const cacheFiles = !!_id;
+  const cacheFiles = !!id;
   const [files, setFiles] = React.useState(initialFiles);
   const [dir, setDir] = React.useState<"v" | "h">(defaultDir);
   const [connected, setConnected] = React.useState(true);
@@ -168,21 +165,21 @@ export function Playground({
       setFiles(files);
       if (cacheFiles) {
         if (!deepEqual(files, initialFiles)) {
-          persistFiles(id, files);
+          persistFiles(internalId, files);
           persistedRef.current = true;
         } else {
-          clearPersistedFiles(id);
+          clearPersistedFiles(internalId);
           persistedRef.current = false;
         }
       }
     },
-    [id, cacheFiles]
+    [cacheFiles, initialFiles, internalId]
   );
 
   const debouncedFiles = useDebouncedValue(files, realConnected ? 100 : -1);
 
   const { Preview, error, bundling } = usePreviewComponent(
-    id,
+    internalId,
     debouncedFiles,
     require
   );
@@ -190,16 +187,18 @@ export function Playground({
   const realShowError = error && (showError || !Preview);
 
   React.useEffect(() => {
-    const recovered = cacheFiles && persistedRef.current && recoverFiles(id);
+    const recovered =
+      cacheFiles && persistedRef.current && recoverFiles(internalId);
     setFiles(recovered || initialFiles);
     if (recovered) {
       debug("Recovered files from sessionStorage");
     }
-  }, [cacheFiles, id, initialFiles]);
+  }, [cacheFiles, internalId, initialFiles]);
 
   return (
     <BodyPortal portal={fullScreen ? "body" : undefined}>
       <div
+        id={id}
         style={style}
         className={cx(
           "code-kitchen-root",
@@ -252,7 +251,7 @@ export function Playground({
           </div>
           <div className="code-kitchen-preview-panel-preview-container">
             <div className="code-kitchen-preview-panel-preview-content">
-              {bundling && !Preview ? "loading..." : Preview && <Preview />}
+              {bundling && !Preview ? "loading ..." : Preview && <Preview />}
             </div>
             {error && (
               <div
@@ -279,6 +278,7 @@ export function Playground({
 
         {showCode && (
           <FilesEditor
+            internalId={internalId}
             id={id}
             initialFiles={initialFiles}
             files={files}

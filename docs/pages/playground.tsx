@@ -58,10 +58,9 @@ export default () => {
 
 export default function PlaygroundPage() {
   useInitMonaco();
-  const id = React.useId();
   return (
     <Playground
-      id={id}
+      id={"code-kitchen-playground"}
       allowDisconnect
       name="Playground"
       className="h-screen"

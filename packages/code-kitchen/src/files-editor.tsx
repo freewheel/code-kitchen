@@ -6,6 +6,15 @@ import { join } from "./path";
 import { InputFile } from "./types";
 import { useMonaco } from "./use-monaco";
 
+declare global {
+  interface Window {
+    __monaco_editors__: Record<
+      string,
+      import("monaco-editor/esm/vs/editor/editor.api").editor.IStandaloneCodeEditor
+    >;
+  }
+}
+
 function useModels(id: string, files: InputFile[]) {
   const monaco = useMonaco();
   const modelsRef = useRef<import("monaco-editor").editor.IModel[] | null>(
@@ -57,13 +66,14 @@ function useModels(id: string, files: InputFile[]) {
 
 function useMonacoEditor(
   id: string,
+  internalId: string,
   ref: React.RefObject<HTMLElement>,
   files: InputFile[],
   onChange: (code: string, filename: string) => void,
   activeFileName: string
 ) {
   const monaco = useMonaco();
-  const models = useModels(id, files);
+  const models = useModels(internalId, files);
   const [editor, setEditor] = useState<
     import("monaco-editor").editor.IStandaloneCodeEditor | null
   >(null);
@@ -84,6 +94,10 @@ function useMonacoEditor(
         },
       });
       setEditor(newEditor);
+      window.__monaco_editors__ = {
+        ...(window.__monaco_editors__ ?? {}),
+        [id]: newEditor,
+      };
       newEditor.onDidFocusEditorText(() => {
         newEditor?.updateOptions({
           scrollbar: {
@@ -99,10 +113,11 @@ function useMonacoEditor(
         });
       });
       return () => {
+        window.__monaco_editors__[id] = undefined;
         newEditor.dispose();
       };
     }
-  }, [monaco, ref]);
+  }, [id, monaco, ref]);
 
   useEffect(() => {
     const activeModel = models?.find((m) =>
@@ -132,11 +147,13 @@ function useMonacoEditor(
 
 export function FilesEditor({
   id,
+  internalId,
   initialFiles,
   files,
   onChange,
 }: {
   id: string;
+  internalId: string;
   initialFiles: InputFile[];
   files: InputFile[];
   onChange: (newFiles: InputFile[]) => void;
@@ -182,6 +199,7 @@ export function FilesEditor({
 
   const editor = useMonacoEditor(
     id,
+    internalId,
     editorWrapperRef,
     files,
     onFileChange,
@@ -223,9 +241,7 @@ export function FilesEditor({
       />
 
       {!editor && (
-        <div className="code-kitchen-editor-loading-text">
-          loading editor ...
-        </div>
+        <div className="code-kitchen-editor-loading-text">loading ...</div>
       )}
     </div>
   );
