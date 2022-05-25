@@ -1,3 +1,9 @@
+## [1.2.5](https://github.com/freewheel/code-kitchen/compare/v1.2.4...v1.2.5) (2022-05-25)
+
+### Bug Fixes
+
+- import debug warning ([51d9a2b](https://github.com/freewheel/code-kitchen/commit/51d9a2bcaed2933c4a94cd7aa227252328a299d8))
+
 ## [1.2.4](https://github.com/freewheel/code-kitchen/compare/v1.2.3...v1.2.4) (2022-05-06)
 
 ### Bug Fixes
