@@ -98,7 +98,7 @@ The project is a monorepo managed by pnpm.
 
 # Local Development
 
-This library is developed with a typical Next.js [document site](https://freewheel.github.io/code-kitchen/).
+This library is developed with a typical Next.js [document site](https://freewheel.github.io/code-kitchen/home).
 
 ## Prerequisites
 
@@ -119,7 +119,7 @@ Now you will be able to preview the document in `localhost:3000`
 
 ## How the in-browser bundler works?
 
-See [this explanation](./docs/pages/how-it-works.mdx)
+See [this explanation](./docs/posts/how-it-works.mdx)
 
 ## How to Contribution
 
