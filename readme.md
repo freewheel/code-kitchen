@@ -77,6 +77,10 @@ export default () => {
 
 Most of the time you may want to use Code Kitchen in a MDX document. You can checkout `docs/components/MDXPlayground.mdx` as a real-life example.
 
+### Add Intelligent type suggestion
+
+You can access Monaco instance by `import { useMonaco } from "code-kitchen"`. Checkout `docs/components/use-init-monaco.ts` as a real-life example.
+
 ## Project Structure
 
 The project is a monorepo managed by pnpm.
