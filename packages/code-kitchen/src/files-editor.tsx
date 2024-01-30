@@ -39,7 +39,10 @@ function useModels(id: string, files: InputFile[]) {
     }
     const getFileUri = (filename: string) =>
       monaco.Uri.file(join(id, filename));
-    if (!modelsRef.current) {
+    if (
+      !modelsRef.current ||
+      (modelsRef.current.length === 0 && files.length > 0)
+    ) {
       const newModels = files.map((f) => {
         return monaco.editor.createModel(
           f.code,
