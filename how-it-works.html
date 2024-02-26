@@ -1,0 +1,182 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><title>Code Kitchen</title><meta name="next-head-count" content="3"/><link href="fonts/fonts.css" rel="stylesheet"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KLHBQKELR6"></script><script id="google-analytics">
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){window.dataLayer.push(arguments);}
+                  gtag('js', new Date());
+        
+                  gtag('config', 'G-KLHBQKELR6');</script><link rel="preload" href="/code-kitchen/_next/static/css/1c3f6c77cd68f92a.css" as="style"/><link rel="stylesheet" href="/code-kitchen/_next/static/css/1c3f6c77cd68f92a.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/code-kitchen/_next/static/chunks/polyfills-5cd94c89d3acac5f.js"></script><script src="/code-kitchen/_next/static/chunks/webpack-a7a3e6a50055a445.js" defer=""></script><script src="/code-kitchen/_next/static/chunks/framework-dbcefd3453fd59d2.js" defer=""></script><script src="/code-kitchen/_next/static/chunks/main-a6458b485b57bf8d.js" defer=""></script><script src="/code-kitchen/_next/static/chunks/pages/_app-488639779d81f87d.js" defer=""></script><script src="/code-kitchen/_next/static/chunks/pages/%5Bid%5D-ce92863426ee0bcd.js" defer=""></script><script src="/code-kitchen/_next/static/GYFvdYVwNCnF-ZvhoyGaH/_buildManifest.js" defer=""></script><script src="/code-kitchen/_next/static/GYFvdYVwNCnF-ZvhoyGaH/_ssgManifest.js" defer=""></script><script src="/code-kitchen/_next/static/GYFvdYVwNCnF-ZvhoyGaH/_middlewareManifest.js" defer=""></script></head><body><div id="__next"><main><div class="max-w-3xl mx-auto py-12 px-8"><h1 class="font-title text-purple-800 text-[24px] font-extrabold my-4">How in browser bundler works?</h1>
+<!-- --><h1 class="font-sans my-2.5">The core of the in-browser bundler is <!-- --><a href="https://esbuild.github.io/api/#running-in-the-browser">esbuild-wasm</a>. We also implemented a custom plugin to resolve CSS files, relative files etc.<!-- --></h1>
+<!-- --><h1 class="font-sans my-2.5">You can checkout the source code at <!-- --><code class="text-sm font-mono px-0.5">packages/src/bundle.ts</code>.<!-- --></h1>
+<!-- --><h1 class="font-title text-purple-900 text-[20px] font-bold my-4">Resolve &amp; transpile files</h1>
+<!-- --><h1 class="font-sans my-2.5">Each playground file is virtually represented by the following interface:</h1>
+<!-- --><pre class="text-[13px] p-2 bg-gray-200 font-mono leading-snug max-w-full"><code class="text-sm font-mono px-0.5">export interface PlaygroundInputFile {
+  filename: string;
+  code: string;
+}</code></pre>
+<!-- --><h1 class="font-sans my-2.5">Bundling these files is starting from the <!-- --><em>entrypoint file</em>, which is the first one if there are multiple files. An entrypoint file for a playground <!-- --><strong>is a jsx/tsx module that has a default export and the default export is a React function component</strong>.<!-- --></h1>
+<!-- --><h1 class="font-sans my-2.5">During bundling, esbuild will traverse the module tree and resolve all the import paths.</h1>
+<!-- --><ul class="font-sans leading-relaxed list-disc pl-10 my-2">
+<!-- --><li>relative paths: if a file starts with <!-- --><code class="text-sm font-mono px-0.5">./</code>, we believe it is a virtual relative file that can be found in the inputs. These files will be transpiled and concatenated into the final bundling result.<!-- --></li>
+<!-- --><li>external identifiers: all other imports are considered as external dependencies. Eg., Material UI &amp; React, etc. These imports will leave as is in the final bundling result as <!-- --><code class="text-sm font-mono px-0.5">require()</code> calls.<!-- --></li>
+<!-- --></ul>
+<!-- --><h1 class="font-sans my-2.5">esbuild can transpile common <!-- --><a href="https://esbuild.github.io/content-types/">React related modules by default</a>, including <!-- --><code class="text-sm font-mono px-0.5">jsx</code>, <!-- --><code class="text-sm font-mono px-0.5">tsx</code>, <!-- --><code class="text-sm font-mono px-0.5">json</code> etc. For CSS, we need to have some special handling, otherwise the styles will pollute the components outside of preview.<!-- --></h1>
+<!-- --><h1 class="font-title text-purple-900 text-[16px] font-bold my-4">Scoped, global CSS and CSS Modules</h1>
+<!-- --><h1 class="font-sans my-2.5">In Code Kitchen, we allow three types of CSS files for playground. By default, rules in a CSS file is scoped to the current preview. We also enabled Global and CSS Modules support with <!-- --><code class="text-sm font-mono px-0.5">.global.css</code> and <!-- --><code class="text-sm font-mono px-0.5">.module.css</code> extensions.<!-- --></h1>
+<!-- --><h1 class="font-sans my-2.5">For all of the modes, we will use a <!-- --><a href="https://webpack.js.org/loaders/style-loader/">style-loader</a> approach that injects the transpiled CSS to the DOM.<!-- --></h1>
+<!-- --><h1 class="font-sans my-2.5">For scoped &amp; CSS Modules, we also relied on <!-- --><a href="https://github.com/thysultan/stylis.js">stylis</a> to transpile CSS along with esbuild, which is a CSS preprocessor that we can hack into the intermediate CSS AST for rules and declarations.<!-- --></h1>
+<!-- --><h1 class="font-title text-gray-800 text-[16px] font-semibold my-4">Global CSS</h1>
+<!-- --><h1 class="font-sans my-2.5">Rules with <!-- --><code class="text-sm font-mono px-0.5">global.css</code> will be simply applied globally even outside of the preview.<!-- --></h1>
+<!-- --><h1 class="font-title text-gray-800 text-[16px] font-semibold my-4">Scoped CSS</h1>
+<!-- --><h1 class="font-sans my-2.5">Rules in a normal css without special extension will be wrapped with a random class name, and the same class name will be used to wrap the playground preview in a <!-- --><code class="text-sm font-mono px-0.5">div</code> element.<!-- --></h1>
+<!-- --><h1 class="font-title text-gray-800 text-[16px] font-semibold my-4">CSS Module</h1>
+<!-- --><h1 class="font-sans my-2.5">CSS file ends with <!-- --><code class="text-sm font-mono px-0.5">module.css</code> will be treated as CSS modules. @<!-- --><a href="https://twitter.com/evanwallace">evanw</a> said he wants to use <!-- --><a href="https://github.com/evanw/esbuild/issues/20">&quot;CSS module bundling part of esbuild MVP&quot;</a>, but it did not happen yet. We attempted to use PostCSS to transpile CSS Module as well, but it seems it is not supported to be run in the browser. As a result, we implement a sub-set of CSS module on our own with <!-- --><a href="https://github.com/thysultan/stylis.js">stylis</a>.<!-- --></h1>
+<!-- --><h1 class="font-sans my-2.5">Typically, what we need to do for a <!-- --><code class="text-sm font-mono px-0.5">module.css</code> file:<!-- --></h1>
+<!-- --><ul class="font-sans leading-relaxed list-disc pl-10 my-2">
+<!-- --><li>add a prefix to every class name in the CSS</li>
+<!-- --><li>transpile the CSS into a JS object that is a mapping from original class name to the actual prefixed class name</li>
+<!-- --></ul>
+<!-- --><h1 class="font-sans my-2.5">This turns out to be straightforward with stylis:</h1>
+<!-- --><pre class="text-[13px] p-2 bg-gray-200 font-mono leading-snug max-w-full"><code class="text-sm font-mono px-0.5">function compileCssModule(css: string, buildId: string) {
+  const classMapping = {};
+  const res = serialize(
+    compile(css),
+    middleware([
+      (element) =&gt; {
+        if (element.length &gt; -1) {
+          if (element.type === RULESET &amp;&amp; element.props) {
+            element.props = (
+              Array.isArray(element.props)
+                ? [...element.props]
+                : [element.props]
+            ).map((prop) =&gt; {
+              return prop.replaceAll(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/g, (m) =&gt; {
+                const varName = m.slice(1);
+                if (!classMapping[varName]) {
+                  classMapping[varName] = varName + &quot;_&quot; + buildId;
+                }
+                return &quot;.&quot; + classMapping[varName];
+              });
+            });
+          }
+        }
+      },
+      stringify,
+    ])
+  );
+
+  return {
+    contents: `${injectCSS(res, buildId)}
+    export default ${JSON.stringify(classMapping)}`,
+  };
+}</code></pre>
+<!-- --><h1 class="font-title text-purple-900 text-[20px] font-bold my-4">Eval and Rendering the Preview</h1>
+<!-- --><h1 class="font-sans my-2.5">Now that all playground are bundled in a single large string, which is a common js module that its default export is the latest demo React function component. E.g., the following input playground file</h1>
+<!-- --><pre class="text-[13px] p-2 bg-gray-200 font-mono leading-snug max-w-full"><code class="text-sm font-mono px-0.5">```js
+import { Button } from &quot;my-private-button-lib&quot;;
+import &quot;./styles.css&quot;;
+
+export default function Demo() {
+  return &lt;Button&gt;Button&lt;/Button&gt;;
+}
+```
+
+```css styles.css
+button {
+  width: 200px;
+}
+```</code></pre>
+<!-- --><h1 class="font-sans my-2.5">Will be bundled as</h1>
+<!-- --><pre class="text-[13px] p-2 bg-gray-200 font-mono leading-snug max-w-full"><code class="text-sm font-mono px-0.5">var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __markAsModule = (target) =&gt;
+  __defProp(target, &quot;__esModule&quot;, { value: true });
+var __export = (target, all) =&gt; {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __reExport = (target, module2, copyDefault, desc) =&gt; {
+  if (
+    (module2 &amp;&amp; typeof module2 === &quot;object&quot;) ||
+    typeof module2 === &quot;function&quot;
+  ) {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) &amp;&amp; (copyDefault || key !== &quot;default&quot;))
+        __defProp(target, key, {
+          get: () =&gt; module2[key],
+          enumerable:
+            !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable,
+        });
+  }
+  return target;
+};
+var __toESM = (module2, isNodeMode) =&gt; {
+  return __reExport(
+    __markAsModule(
+      __defProp(
+        module2 != null ? __create(__getProtoOf(module2)) : {},
+        &quot;default&quot;,
+        !isNodeMode &amp;&amp; module2 &amp;&amp; module2.__esModule
+          ? { get: () =&gt; module2.default, enumerable: true }
+          : { value: module2, enumerable: true }
+      )
+    ),
+    module2
+  );
+};
+var __toCommonJS = /* @__PURE__ */ ((cache) =&gt; {
+  return (module2, temp) =&gt; {
+    return (
+      (cache &amp;&amp; cache.get(module2)) ||
+      ((temp = __reExport(__markAsModule({}), module2, 1)),
+      cache &amp;&amp; cache.set(module2, temp),
+      temp)
+    );
+  };
+})(typeof WeakMap !== &quot;undefined&quot; ? /* @__PURE__ */ new WeakMap() : 0);
+
+// playground-input:App.jsx
+var App_exports = {};
+__export(App_exports, {
+  default: () =&gt; Demo,
+});
+
+// playground-input:styles.css
+(function () {
+  const style = document.createElement(&quot;style&quot;);
+  style.innerHTML = &quot;.esscu button{width:200px;}&quot;;
+  style.setAttribute(&quot;data-playground-style-id&quot;, &quot;esscu&quot;);
+  document.head.appendChild(style);
+})();
+
+// playground-input:App.jsx
+var import_private_button_lib = __toESM(require(&quot;my-private-button-lib&quot;));
+function Demo() {
+  return /* @__PURE__ */ React.createElement(
+    import_private_button_lib.Button,
+    null,
+    &quot;Button&quot;
+  );
+}
+module.exports = __toCommonJS(App_exports);</code></pre>
+<!-- --><h1 class="font-sans my-2.5">To render it, we need to:</h1>
+<!-- --><ul class="font-sans leading-relaxed list-disc pl-10 my-2">
+<!-- --><li>evaluate the module and get the default export</li>
+<!-- --><li>if necessary, provide external dependencies</li>
+<!-- --></ul>
+<!-- --><h1 class="font-sans my-2.5">The above module will be wrapped as <!-- --><code class="text-sm font-mono px-0.5">((require, module) =&gt; { ... content }))(require, module)</code> using <!-- --><code class="text-sm font-mono px-0.5">new Function</code> and then evaluate. Note we passed in two external variables, which is <!-- --><code class="text-sm font-mono px-0.5">require</code> and <!-- --><code class="text-sm font-mono px-0.5">module</code>.<!-- --></h1>
+<!-- --><h1 class="font-sans my-2.5">You can see in the bundled code there is a <!-- --><code class="text-sm font-mono px-0.5">require(&#x27;my-private-button-lib&#x27;)</code> call, which is the CJS version of <!-- --><code class="text-sm font-mono px-0.5">import &#x27;my-private-button-lib&#x27;</code>. Thus, we can provide a customized <!-- --><code class="text-sm font-mono px-0.5">require</code> to inject external modules.<!-- --></h1>
+<!-- --><pre class="text-[13px] p-2 bg-gray-200 font-mono leading-snug max-w-full"><code class="text-sm font-mono px-0.5">import * as privateLib from &quot;my-private-button-lib&quot;;
+// ...
+
+const dependencies = {
+  &quot;my-private-button-lib&quot;: privateLib,
+  // ...
+};
+
+function require(key) {
+  return dependencies[key];
+}</code></pre>
+<!-- --><h1 class="font-sans my-2.5">After the bundled CJS module is evaluated, we then get the function component at <!-- --><code class="text-sm font-mono px-0.5">module.exports.default</code> and then render it to the preview panel.<!-- --></h1></div></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"source":{"compiledSource":"/*@jsxRuntime automatic @jsxImportSource react*/\nconst {Fragment: _Fragment, jsx: _jsx, jsxs: _jsxs} = arguments[0];\nconst {useMDXComponents: _provideComponents} = arguments[0];\nfunction MDXContent(props = {}) {\n  const {wrapper: MDXLayout} = Object.assign({}, _provideComponents(), props.components);\n  return MDXLayout ? _jsx(MDXLayout, Object.assign({}, props, {\n    children: _jsx(_createMdxContent, {})\n  })) : _createMdxContent();\n  function _createMdxContent() {\n    const _components = Object.assign({\n      h1: \"h1\",\n      p: \"p\",\n      a: \"a\",\n      code: \"code\",\n      h2: \"h2\",\n      pre: \"pre\",\n      em: \"em\",\n      strong: \"strong\",\n      ul: \"ul\",\n      li: \"li\",\n      h3: \"h3\",\n      h4: \"h4\"\n    }, _provideComponents(), props.components);\n    return _jsxs(_Fragment, {\n      children: [_jsx(_components.h1, {\n        children: \"How in browser bundler works?\"\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"The core of the in-browser bundler is \", _jsx(_components.a, {\n          href: \"https://esbuild.github.io/api/#running-in-the-browser\",\n          children: \"esbuild-wasm\"\n        }), \". We also implemented a custom plugin to resolve CSS files, relative files etc.\"]\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"You can checkout the source code at \", _jsx(_components.code, {\n          children: \"packages/src/bundle.ts\"\n        }), \".\"]\n      }), \"\\n\", _jsx(_components.h2, {\n        children: \"Resolve \u0026 transpile files\"\n      }), \"\\n\", _jsx(_components.p, {\n        children: \"Each playground file is virtually represented by the following interface:\"\n      }), \"\\n\", _jsx(_components.pre, {\n        children: _jsx(_components.code, {\n          className: \"language-ts\",\n          children: \"export interface PlaygroundInputFile {\\n  filename: string;\\n  code: string;\\n}\\n\"\n        })\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"Bundling these files is starting from the \", _jsx(_components.em, {\n          children: \"entrypoint file\"\n        }), \", which is the first one if there are multiple files. An entrypoint file for a playground \", _jsx(_components.strong, {\n          children: \"is a jsx/tsx module that has a default export and the default export is a React function component\"\n        }), \".\"]\n      }), \"\\n\", _jsx(_components.p, {\n        children: \"During bundling, esbuild will traverse the module tree and resolve all the import paths.\"\n      }), \"\\n\", _jsxs(_components.ul, {\n        children: [\"\\n\", _jsxs(_components.li, {\n          children: [\"relative paths: if a file starts with \", _jsx(_components.code, {\n            children: \"./\"\n          }), \", we believe it is a virtual relative file that can be found in the inputs. These files will be transpiled and concatenated into the final bundling result.\"]\n        }), \"\\n\", _jsxs(_components.li, {\n          children: [\"external identifiers: all other imports are considered as external dependencies. Eg., Material UI \u0026 React, etc. These imports will leave as is in the final bundling result as \", _jsx(_components.code, {\n            children: \"require()\"\n          }), \" calls.\"]\n        }), \"\\n\"]\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"esbuild can transpile common \", _jsx(_components.a, {\n          href: \"https://esbuild.github.io/content-types/\",\n          children: \"React related modules by default\"\n        }), \", including \", _jsx(_components.code, {\n          children: \"jsx\"\n        }), \", \", _jsx(_components.code, {\n          children: \"tsx\"\n        }), \", \", _jsx(_components.code, {\n          children: \"json\"\n        }), \" etc. For CSS, we need to have some special handling, otherwise the styles will pollute the components outside of preview.\"]\n      }), \"\\n\", _jsx(_components.h3, {\n        children: \"Scoped, global CSS and CSS Modules\"\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"In Code Kitchen, we allow three types of CSS files for playground. By default, rules in a CSS file is scoped to the current preview. We also enabled Global and CSS Modules support with \", _jsx(_components.code, {\n          children: \".global.css\"\n        }), \" and \", _jsx(_components.code, {\n          children: \".module.css\"\n        }), \" extensions.\"]\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"For all of the modes, we will use a \", _jsx(_components.a, {\n          href: \"https://webpack.js.org/loaders/style-loader/\",\n          children: \"style-loader\"\n        }), \" approach that injects the transpiled CSS to the DOM.\"]\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"For scoped \u0026 CSS Modules, we also relied on \", _jsx(_components.a, {\n          href: \"https://github.com/thysultan/stylis.js\",\n          children: \"stylis\"\n        }), \" to transpile CSS along with esbuild, which is a CSS preprocessor that we can hack into the intermediate CSS AST for rules and declarations.\"]\n      }), \"\\n\", _jsx(_components.h4, {\n        children: \"Global CSS\"\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"Rules with \", _jsx(_components.code, {\n          children: \"global.css\"\n        }), \" will be simply applied globally even outside of the preview.\"]\n      }), \"\\n\", _jsx(_components.h4, {\n        children: \"Scoped CSS\"\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"Rules in a normal css without special extension will be wrapped with a random class name, and the same class name will be used to wrap the playground preview in a \", _jsx(_components.code, {\n          children: \"div\"\n        }), \" element.\"]\n      }), \"\\n\", _jsx(_components.h4, {\n        children: \"CSS Module\"\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"CSS file ends with \", _jsx(_components.code, {\n          children: \"module.css\"\n        }), \" will be treated as CSS modules. @\", _jsx(_components.a, {\n          href: \"https://twitter.com/evanwallace\",\n          children: \"evanw\"\n        }), \" said he wants to use \", _jsx(_components.a, {\n          href: \"https://github.com/evanw/esbuild/issues/20\",\n          children: \"\\\"CSS module bundling part of esbuild MVP\\\"\"\n        }), \", but it did not happen yet. We attempted to use PostCSS to transpile CSS Module as well, but it seems it is not supported to be run in the browser. As a result, we implement a sub-set of CSS module on our own with \", _jsx(_components.a, {\n          href: \"https://github.com/thysultan/stylis.js\",\n          children: \"stylis\"\n        }), \".\"]\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"Typically, what we need to do for a \", _jsx(_components.code, {\n          children: \"module.css\"\n        }), \" file:\"]\n      }), \"\\n\", _jsxs(_components.ul, {\n        children: [\"\\n\", _jsx(_components.li, {\n          children: \"add a prefix to every class name in the CSS\"\n        }), \"\\n\", _jsx(_components.li, {\n          children: \"transpile the CSS into a JS object that is a mapping from original class name to the actual prefixed class name\"\n        }), \"\\n\"]\n      }), \"\\n\", _jsx(_components.p, {\n        children: \"This turns out to be straightforward with stylis:\"\n      }), \"\\n\", _jsx(_components.pre, {\n        children: _jsx(_components.code, {\n          className: \"language-js\",\n          children: \"function compileCssModule(css: string, buildId: string) {\\n  const classMapping = {};\\n  const res = serialize(\\n    compile(css),\\n    middleware([\\n      (element) =\u003e {\\n        if (element.length \u003e -1) {\\n          if (element.type === RULESET \u0026\u0026 element.props) {\\n            element.props = (\\n              Array.isArray(element.props)\\n                ? [...element.props]\\n                : [element.props]\\n            ).map((prop) =\u003e {\\n              return prop.replaceAll(/\\\\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/g, (m) =\u003e {\\n                const varName = m.slice(1);\\n                if (!classMapping[varName]) {\\n                  classMapping[varName] = varName + \\\"_\\\" + buildId;\\n                }\\n                return \\\".\\\" + classMapping[varName];\\n              });\\n            });\\n          }\\n        }\\n      },\\n      stringify,\\n    ])\\n  );\\n\\n  return {\\n    contents: `${injectCSS(res, buildId)}\\n    export default ${JSON.stringify(classMapping)}`,\\n  };\\n}\\n\"\n        })\n      }), \"\\n\", _jsx(_components.h2, {\n        children: \"Eval and Rendering the Preview\"\n      }), \"\\n\", _jsx(_components.p, {\n        children: \"Now that all playground are bundled in a single large string, which is a common js module that its default export is the latest demo React function component. E.g., the following input playground file\"\n      }), \"\\n\", _jsx(_components.pre, {\n        children: _jsx(_components.code, {\n          className: \"language-md\",\n          children: \"```js\\nimport { Button } from \\\"my-private-button-lib\\\";\\nimport \\\"./styles.css\\\";\\n\\nexport default function Demo() {\\n  return \u003cButton\u003eButton\u003c/Button\u003e;\\n}\\n```\\n\\n```css styles.css\\nbutton {\\n  width: 200px;\\n}\\n```\\n\"\n        })\n      }), \"\\n\", _jsx(_components.p, {\n        children: \"Will be bundled as\"\n      }), \"\\n\", _jsx(_components.pre, {\n        children: _jsx(_components.code, {\n          className: \"language-js\",\n          children: \"var __create = Object.create;\\nvar __defProp = Object.defineProperty;\\nvar __getOwnPropDesc = Object.getOwnPropertyDescriptor;\\nvar __getOwnPropNames = Object.getOwnPropertyNames;\\nvar __getProtoOf = Object.getPrototypeOf;\\nvar __hasOwnProp = Object.prototype.hasOwnProperty;\\nvar __markAsModule = (target) =\u003e\\n  __defProp(target, \\\"__esModule\\\", { value: true });\\nvar __export = (target, all) =\u003e {\\n  for (var name in all)\\n    __defProp(target, name, { get: all[name], enumerable: true });\\n};\\nvar __reExport = (target, module2, copyDefault, desc) =\u003e {\\n  if (\\n    (module2 \u0026\u0026 typeof module2 === \\\"object\\\") ||\\n    typeof module2 === \\\"function\\\"\\n  ) {\\n    for (let key of __getOwnPropNames(module2))\\n      if (!__hasOwnProp.call(target, key) \u0026\u0026 (copyDefault || key !== \\\"default\\\"))\\n        __defProp(target, key, {\\n          get: () =\u003e module2[key],\\n          enumerable:\\n            !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable,\\n        });\\n  }\\n  return target;\\n};\\nvar __toESM = (module2, isNodeMode) =\u003e {\\n  return __reExport(\\n    __markAsModule(\\n      __defProp(\\n        module2 != null ? __create(__getProtoOf(module2)) : {},\\n        \\\"default\\\",\\n        !isNodeMode \u0026\u0026 module2 \u0026\u0026 module2.__esModule\\n          ? { get: () =\u003e module2.default, enumerable: true }\\n          : { value: module2, enumerable: true }\\n      )\\n    ),\\n    module2\\n  );\\n};\\nvar __toCommonJS = /* @__PURE__ */ ((cache) =\u003e {\\n  return (module2, temp) =\u003e {\\n    return (\\n      (cache \u0026\u0026 cache.get(module2)) ||\\n      ((temp = __reExport(__markAsModule({}), module2, 1)),\\n      cache \u0026\u0026 cache.set(module2, temp),\\n      temp)\\n    );\\n  };\\n})(typeof WeakMap !== \\\"undefined\\\" ? /* @__PURE__ */ new WeakMap() : 0);\\n\\n// playground-input:App.jsx\\nvar App_exports = {};\\n__export(App_exports, {\\n  default: () =\u003e Demo,\\n});\\n\\n// playground-input:styles.css\\n(function () {\\n  const style = document.createElement(\\\"style\\\");\\n  style.innerHTML = \\\".esscu button{width:200px;}\\\";\\n  style.setAttribute(\\\"data-playground-style-id\\\", \\\"esscu\\\");\\n  document.head.appendChild(style);\\n})();\\n\\n// playground-input:App.jsx\\nvar import_private_button_lib = __toESM(require(\\\"my-private-button-lib\\\"));\\nfunction Demo() {\\n  return /* @__PURE__ */ React.createElement(\\n    import_private_button_lib.Button,\\n    null,\\n    \\\"Button\\\"\\n  );\\n}\\nmodule.exports = __toCommonJS(App_exports);\\n\"\n        })\n      }), \"\\n\", _jsx(_components.p, {\n        children: \"To render it, we need to:\"\n      }), \"\\n\", _jsxs(_components.ul, {\n        children: [\"\\n\", _jsx(_components.li, {\n          children: \"evaluate the module and get the default export\"\n        }), \"\\n\", _jsx(_components.li, {\n          children: \"if necessary, provide external dependencies\"\n        }), \"\\n\"]\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"The above module will be wrapped as \", _jsx(_components.code, {\n          children: \"((require, module) =\u003e { ... content }))(require, module)\"\n        }), \" using \", _jsx(_components.code, {\n          children: \"new Function\"\n        }), \" and then evaluate. Note we passed in two external variables, which is \", _jsx(_components.code, {\n          children: \"require\"\n        }), \" and \", _jsx(_components.code, {\n          children: \"module\"\n        }), \".\"]\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"You can see in the bundled code there is a \", _jsx(_components.code, {\n          children: \"require('my-private-button-lib')\"\n        }), \" call, which is the CJS version of \", _jsx(_components.code, {\n          children: \"import 'my-private-button-lib'\"\n        }), \". Thus, we can provide a customized \", _jsx(_components.code, {\n          children: \"require\"\n        }), \" to inject external modules.\"]\n      }), \"\\n\", _jsx(_components.pre, {\n        children: _jsx(_components.code, {\n          className: \"language-js\",\n          children: \"import * as privateLib from \\\"my-private-button-lib\\\";\\n// ...\\n\\nconst dependencies = {\\n  \\\"my-private-button-lib\\\": privateLib,\\n  // ...\\n};\\n\\nfunction require(key) {\\n  return dependencies[key];\\n}\\n\"\n        })\n      }), \"\\n\", _jsxs(_components.p, {\n        children: [\"After the bundled CJS module is evaluated, we then get the function component at \", _jsx(_components.code, {\n          children: \"module.exports.default\"\n        }), \" and then render it to the preview panel.\"]\n      })]\n    });\n  }\n}\nreturn {\n  default: MDXContent\n};\n","frontmatter":{},"scope":{}}},"__N_SSG":true},"page":"/[id]","query":{"id":"how-it-works"},"buildId":"GYFvdYVwNCnF-ZvhoyGaH","assetPrefix":"/code-kitchen","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
