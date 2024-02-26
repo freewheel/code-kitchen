@@ -1,3 +1,9 @@
+## [1.2.8](https://github.com/freewheel/code-kitchen/compare/v1.2.7...v1.2.8) (2024-02-26)
+
+### Bug Fixes
+
+- Remote Source Code Loading Bug ([#23](https://github.com/freewheel/code-kitchen/issues/23)) ([37122a2](https://github.com/freewheel/code-kitchen/commit/37122a282fd7715a99e5bb83212021d92277ff73))
+
 ## [1.2.7](https://github.com/freewheel/code-kitchen/compare/v1.2.6...v1.2.7) (2022-05-25)
 
 ### Bug Fixes
