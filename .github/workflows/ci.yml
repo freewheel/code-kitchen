@@ -22,17 +22,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Set node version to 24.x
+      - name: Set node version to 20.x
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 20
 
       - uses: pnpm/action-setup@v4
 
       - name: Install deps
         run: |
           pnpm install
-          npx playwright install-deps chromium
+          pnpm --dir docs exec playwright install --with-deps
 
       - name: Oxfmt
         run: |
