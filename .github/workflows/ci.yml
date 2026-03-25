@@ -32,7 +32,7 @@ jobs:
       - name: Install deps
         run: |
           pnpm install
-          npx playwright install-deps chromium
+          pnpm --dir docs exec playwright install --with-deps
 
       - name: Oxfmt
         run: |
