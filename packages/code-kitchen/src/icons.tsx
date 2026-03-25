@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export const RotateToHorizontalIcon = (props) => (
   <svg width="1em" height="1em" viewBox="0 0 24 24" {...props}>
@@ -10,7 +10,7 @@ export const RotateToHorizontalIcon = (props) => (
 );
 
 export const RotateToVerticalIcon = (props) => (
-  <RotateToHorizontalIcon {...props} style={{ transform: 'rotate(-90deg)' }} />
+  <RotateToHorizontalIcon {...props} style={{ transform: "rotate(-90deg)" }} />
 );
 
 export const ErrorIcon = (props) => (

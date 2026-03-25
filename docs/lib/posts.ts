@@ -1,13 +1,13 @@
-import fsp from 'fs/promises';
-import remarkGfm from 'remark-gfm';
+import fsp from "fs/promises";
+import remarkGfm from "remark-gfm";
 
-import { serialize } from 'next-mdx-remote/serialize';
+import { serialize } from "next-mdx-remote/serialize";
 
-import path from 'path';
+import path from "path";
 
-import { codeMetaPlugin } from './rehype-code-meta';
+import { codeMetaPlugin } from "./rehype-code-meta";
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+const postsDirectory = path.join(process.cwd(), "posts");
 
 export async function getPostsData() {
   // Get file names under /posts
@@ -15,14 +15,14 @@ export async function getPostsData() {
   const allPostsData = await Promise.all(
     fileNames.map(async (fileName) => {
       // Remove ".mdx" from file name to get id
-      const id = fileName.replace(/\.mdx$/, '');
+      const id = fileName.replace(/\.mdx$/, "");
 
       // Combine the data with the id
       return {
         id,
-        fileName
+        fileName,
       };
-    })
+    }),
   );
   // Sort posts by date
   return allPostsData;
@@ -30,16 +30,16 @@ export async function getPostsData() {
 
 export async function getPostData(id: string) {
   const fullPath = path.join(postsDirectory, `${id}.mdx`);
-  const source = await fsp.readFile(fullPath, 'utf8');
+  const source = await fsp.readFile(fullPath, "utf8");
 
   const mdxSource = await serialize(source, {
     mdxOptions: {
       remarkPlugins: [remarkGfm],
-      rehypePlugins: [codeMetaPlugin]
-    }
+      rehypePlugins: [codeMetaPlugin],
+    },
   });
 
   return {
-    source: mdxSource
+    source: mdxSource,
   };
 }

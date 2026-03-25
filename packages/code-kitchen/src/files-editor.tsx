@@ -1,24 +1,24 @@
-import { inferLanguage } from '@code-kitchen/bundler';
-import { deepEqual } from 'fast-equals';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { debug } from './debug';
-import { join } from './path';
-import { InputFile } from './types';
-import { useMonaco } from './use-monaco';
+import { inferLanguage } from "@code-kitchen/bundler";
+import { deepEqual } from "fast-equals";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { debug } from "./debug";
+import { join } from "./path";
+import { InputFile } from "./types";
+import { useMonaco } from "./use-monaco";
 
 declare global {
   interface Window {
     __monaco_editors__: Record<
       string,
-      import('monaco-editor/esm/vs/editor/editor.api').editor.IStandaloneCodeEditor
+      import("monaco-editor/esm/vs/editor/editor.api").editor.IStandaloneCodeEditor
     >;
   }
 }
 
 function useModels(id: string, files: InputFile[]) {
   const monaco = useMonaco();
-  const modelsRef = useRef<import('monaco-editor').editor.IModel[] | null>(
-    null
+  const modelsRef = useRef<import("monaco-editor").editor.IModel[] | null>(
+    null,
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setCounter] = useState(0);
@@ -47,7 +47,7 @@ function useModels(id: string, files: InputFile[]) {
         return monaco.editor.createModel(
           f.code,
           inferLanguage(f.filename),
-          getFileUri(f.filename)
+          getFileUri(f.filename),
         );
       });
       modelsRef.current = newModels;
@@ -55,10 +55,10 @@ function useModels(id: string, files: InputFile[]) {
     } else {
       modelsRef.current.forEach((m) => {
         const latestCode = files.find(
-          (f) => getFileUri(f.filename).path === m.uri.path
+          (f) => getFileUri(f.filename).path === m.uri.path,
         )?.code;
         if (!m.isDisposed() && m.getValue() !== latestCode) {
-          m.setValue(latestCode ?? '');
+          m.setValue(latestCode ?? "");
         }
       });
     }
@@ -73,12 +73,12 @@ function useMonacoEditor(
   ref: React.RefObject<HTMLElement>,
   files: InputFile[],
   onChange: (code: string, filename: string) => void,
-  activeFileName: string
+  activeFileName: string,
 ) {
   const monaco = useMonaco();
   const models = useModels(internalId, files);
   const [editor, setEditor] = useState<
-    import('monaco-editor').editor.IStandaloneCodeEditor | null
+    import("monaco-editor").editor.IStandaloneCodeEditor | null
   >(null);
 
   const [stateCache] = useState(() => new Map());
@@ -93,8 +93,8 @@ function useMonacoEditor(
         smoothScrolling: true,
         scrollbar: {
           alwaysConsumeMouseWheel: true,
-          handleMouseWheel: false
-        }
+          handleMouseWheel: false,
+        },
       });
       setEditor(newEditor);
       if (window.__monaco_editors__) {
@@ -103,15 +103,15 @@ function useMonacoEditor(
       newEditor.onDidFocusEditorText(() => {
         newEditor?.updateOptions({
           scrollbar: {
-            handleMouseWheel: true
-          }
+            handleMouseWheel: true,
+          },
         });
       });
       newEditor.onDidBlurEditorText(() => {
         newEditor?.updateOptions({
           scrollbar: {
-            handleMouseWheel: false
-          }
+            handleMouseWheel: false,
+          },
         });
       });
       return () => {
@@ -125,7 +125,7 @@ function useMonacoEditor(
 
   useEffect(() => {
     const activeModel = models?.find((m) =>
-      m.uri.path.endsWith(activeFileName)
+      m.uri.path.endsWith(activeFileName),
     );
     if (
       editor &&
@@ -154,7 +154,7 @@ export function FilesEditor({
   internalId,
   initialFiles,
   files,
-  onChange
+  onChange,
 }: {
   id: string;
   internalId: string;
@@ -179,11 +179,11 @@ export function FilesEditor({
         newFiles[idx] = { ...newFiles[idx], code: newCode };
       }
       if (!deepEqual(newFiles, filesRef.current)) {
-        debug('tab #' + idx + ' changed');
+        debug("tab #" + idx + " changed");
         onChange(newFiles);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   const activeFile = files.find((f) => f.filename === activeTab);
@@ -191,13 +191,13 @@ export function FilesEditor({
 
   const doReset = useCallback(() => {
     onChange(initialFiles);
-    debug('reset');
+    debug("reset");
   }, [onChange, initialFiles]);
 
   useEffect(() => {
     if (!activeFile && files) {
       setActiveTab(filenames[0]);
-      debug('change tab to ' + filenames[0]);
+      debug("change tab to " + filenames[0]);
     }
   }, [activeFile, activeTab, filenames, files]);
 
@@ -207,7 +207,7 @@ export function FilesEditor({
     editorWrapperRef,
     files,
     onFileChange,
-    activeTab
+    activeTab,
   );
 
   return (
@@ -239,7 +239,7 @@ export function FilesEditor({
       </div>
       <div
         className={`code-kitchen-monaco-editor-anchor ${
-          editor ? '' : 'hidden'
+          editor ? "" : "hidden"
         }`}
         ref={editorWrapperRef}
       />

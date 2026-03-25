@@ -2,13 +2,13 @@ branches:
   - main
   - release-action
 plugins:
-  - - '@semantic-release/commit-analyzer'
+  - - "@semantic-release/commit-analyzer"
     - preset: conventionalcommits
-  - '@semantic-release/release-notes-generator'
-  - '@semantic-release/changelog'
-  - - '@semantic-release/git'
+  - "@semantic-release/release-notes-generator"
+  - "@semantic-release/changelog"
+  - - "@semantic-release/git"
     - assets:
         - CHANGELOG.md
-  - - '@semantic-release/npm'
+  - - "@semantic-release/npm"
     - pkgRoot: packages/code-kitchen/dist
-  - '@semantic-release/github'
+  - "@semantic-release/github"

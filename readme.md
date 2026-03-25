@@ -29,14 +29,14 @@ You can checkout a minimum example at this [Code Sandbox](https://codesandbox.io
 ### Minimal setup
 
 ```tsx
-import * as React from 'react';
-import { Playground, setup } from 'code-kitchen';
+import * as React from "react";
+import { Playground, setup } from "code-kitchen";
 
-import * as privateLib from 'my-private-lib';
+import * as privateLib from "my-private-lib";
 
 const dependencies = {
   react: React,
-  'my-private-lib': privateLib
+  "my-private-lib": privateLib,
 };
 
 const customRequire = (key: string) => {
@@ -46,7 +46,7 @@ const customRequire = (key: string) => {
     return res;
   }
 
-  throw new Error('DEP: ' + key + ' not found');
+  throw new Error("DEP: " + key + " not found");
 };
 
 // Two files for the demo playground
@@ -60,12 +60,12 @@ export default function Demo() {
   return <Button>Button</Button>;
 }
   `,
-    filename: 'App.jsx'
+    filename: "App.jsx",
   },
   {
     code: `button { width: 200px; }`,
-    filename: 'styles.css'
-  }
+    filename: "styles.css",
+  },
 ];
 
 export default () => {

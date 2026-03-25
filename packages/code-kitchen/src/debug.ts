@@ -1,3 +1,3 @@
-import Debug from 'debug';
+import Debug from "debug";
 
-export const debug = Debug('code-kitchen:playground');
+export const debug = Debug("code-kitchen:playground");

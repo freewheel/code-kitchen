@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable react/prop-types */
-import cx from 'classnames';
-import { Playground as ReactPlayground, setup } from 'code-kitchen';
-import esbuildWasmMeta from 'esbuild-wasm/package.json';
-import monacoEditorMeta from 'monaco-editor/package.json';
-import React, { useId } from 'react';
-import dependencies from './dependencies';
-import { pre } from './mdx';
-import { useInitMonaco } from './use-init-monaco';
+import cx from "classnames";
+import { Playground as ReactPlayground, setup } from "code-kitchen";
+import esbuildWasmMeta from "esbuild-wasm/package.json";
+import monacoEditorMeta from "monaco-editor/package.json";
+import React, { useId } from "react";
+import dependencies from "./dependencies";
+import { pre } from "./mdx";
+import { useInitMonaco } from "./use-init-monaco";
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === "production";
 
 setup({
   esbuildWasmPath:
-    (isProd ? '/code-kitchen' : '') +
+    (isProd ? "/code-kitchen" : "") +
     `/libs/esbuild-wasm/${esbuildWasmMeta.version}`,
   monacoEditorPath:
-    (isProd ? '/code-kitchen' : '') +
-    `/libs/monaco-editor/${monacoEditorMeta.version}/min`
+    (isProd ? "/code-kitchen" : "") +
+    `/libs/monaco-editor/${monacoEditorMeta.version}/min`,
 });
 
 export const useHasMounted = () => {
@@ -35,7 +35,7 @@ const customRequire = (key: string) => {
     return res;
   }
 
-  throw new Error('DEP: ' + key + ' not found');
+  throw new Error("DEP: " + key + " not found");
 };
 
 export const Playground = ({
@@ -43,7 +43,7 @@ export const Playground = ({
   className,
   name,
   live,
-  dir
+  dir,
 }: {
   children: string;
   /**
@@ -52,7 +52,7 @@ export const Playground = ({
   name?: string;
   className?: string;
   live?: boolean;
-  dir?: 'v' | 'h';
+  dir?: "v" | "h";
 }) => {
   const hasMounted = useHasMounted();
 
@@ -67,28 +67,28 @@ export const Playground = ({
 
   const files = codeSnippets
     .map((codeSnippet: React.ReactElement, index) => {
-      if (codeSnippet.type !== 'pre' && codeSnippet.type !== pre) {
+      if (codeSnippet.type !== "pre" && codeSnippet.type !== pre) {
         return undefined;
       }
       const { props } = codeSnippet.props.children;
-      const lang = props.className.split('language-')[1];
+      const lang = props.className.split("language-")[1];
 
-      let filename = ''; // path in the folder structure
+      let filename = ""; // path in the folder structure
       let hidden = false; // if the file is available as a tab
 
       if (props.metastring) {
-        const [_filename, ...params] = props.metastring.split(' ');
+        const [_filename, ...params] = props.metastring.split(" ");
         filename = _filename;
-        if (params.includes('hidden')) {
+        if (params.includes("hidden")) {
           hidden = true;
         }
       } else {
         // The first file is always entryfile
-        if (['ts', 'tsx', 'js', 'jsx'].includes(lang) && index === 0) {
-          filename = 'App.jsx';
+        if (["ts", "tsx", "js", "jsx"].includes(lang) && index === 0) {
+          filename = "App.jsx";
         } else {
           throw new Error(
-            `Code block is missing a filename: ${props.children}`
+            `Code block is missing a filename: ${props.children}`,
           );
         }
       }
@@ -97,7 +97,7 @@ export const Playground = ({
         code: props.children as string,
         hidden,
         entry: index === 0,
-        filename
+        filename,
       };
     })
     .filter(Boolean);
@@ -107,7 +107,7 @@ export const Playground = ({
       name={name}
       initialFiles={files}
       require={customRequire}
-      className={cx(className, 'my-8 h-[512px] relative')}
+      className={cx(className, "my-8 h-[512px] relative")}
       live={live}
       dir={dir}
     />

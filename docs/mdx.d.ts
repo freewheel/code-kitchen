@@ -1,4 +1,4 @@
-declare module '*.mdx' {
+declare module "*.mdx" {
   const el: any;
   export default el;
 }

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React from "react";
 
-import { Playground } from 'code-kitchen';
-import { useInitMonaco } from '../components/use-init-monaco';
-import dependencies from '../components/dependencies';
+import { Playground } from "code-kitchen";
+import { useInitMonaco } from "../components/use-init-monaco";
+import dependencies from "../components/dependencies";
 
 const customRequire = (key: string) => {
   const res = (dependencies as any)[key];
@@ -12,7 +12,7 @@ const customRequire = (key: string) => {
     return res;
   }
 
-  throw new Error('DEP: ' + key + ' not found');
+  throw new Error("DEP: " + key + " not found");
 };
 
 const files = [
@@ -33,7 +33,7 @@ export default () => {
   );
 };
   `,
-    filename: 'App.tsx'
+    filename: "App.tsx",
   },
   {
     code: `
@@ -52,15 +52,15 @@ export default () => {
 .tada {
   font-size: 20px;
 }`,
-    filename: 'styles.module.css'
-  }
+    filename: "styles.module.css",
+  },
 ];
 
 export default function PlaygroundPage() {
   useInitMonaco();
   return (
     <Playground
-      id={'code-kitchen-playground'}
+      id={"code-kitchen-playground"}
       allowDisconnect
       name="Playground"
       className="h-screen"

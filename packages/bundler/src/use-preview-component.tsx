@@ -1,15 +1,15 @@
-import Debug from 'debug';
-import React, { Component } from 'react';
+import Debug from "debug";
+import React, { Component } from "react";
 
-import { bundle } from './bundle';
-import { InputFile } from './types';
+import { bundle } from "./bundle";
+import { InputFile } from "./types";
 
-const debug = Debug('code-kitchen:bundler');
+const debug = Debug("code-kitchen:bundler");
 
 export const errorBoundary = (
   id: string,
   Element: React.ComponentType,
-  errorCallback: (err: Error) => void
+  errorCallback: (err: Error) => void,
 ) => {
   return class ErrorBoundary extends Component {
     state = { error: null };
@@ -26,8 +26,8 @@ export const errorBoundary = (
         return null;
       }
       return (
-        <div className={id} style={{ display: 'contents' }}>
-          {typeof Element === 'function' ? <Element /> : Element}
+        <div className={id} style={{ display: "contents" }}>
+          {typeof Element === "function" ? <Element /> : Element}
         </div>
       );
     }
@@ -47,22 +47,22 @@ const generatePreviewComponent = (
   id: string,
   {
     input,
-    scope = {}
+    scope = {},
   }: {
     input: string;
     scope: Record<string, any>;
   },
-  errorCallback: (err: Error) => void
+  errorCallback: (err: Error) => void,
 ) => {
   try {
     const _module: any = {
-      exports: {}
+      exports: {},
     };
     evalCode(input, {
       ...scope,
       exports: _module.exports,
       module: _module,
-      React
+      React,
     });
     const El = _module.exports.default;
     return errorBoundary(id, El, errorCallback);
@@ -74,7 +74,7 @@ const generatePreviewComponent = (
 export const usePreviewComponent = (
   id: string,
   files: InputFile[],
-  require: (key: string) => any
+  require: (key: string) => any,
 ) => {
   const [bundling, setBundling] = React.useState(false);
   const [Preview, setPreview] = React.useState<any>(null);
@@ -95,15 +95,15 @@ export const usePreviewComponent = (
         // There should be only one file after bundle though
         debug(
           `Bundled code in ${(performance.now() - startTime).toFixed()}ms: `,
-          { bundledCode }
+          { bundledCode },
         );
         const El = generatePreviewComponent(
           id,
           {
             input: bundledCode,
-            scope: { require }
+            scope: { require },
           },
-          setError
+          setError,
         );
         if (El) {
           setError(null);
@@ -130,6 +130,6 @@ export const usePreviewComponent = (
   return {
     Preview,
     bundling,
-    error
+    error,
   };
 };
