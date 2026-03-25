@@ -1,4 +1,4 @@
-import * as esbuild from "esbuild-wasm";
+import * as esbuild from 'esbuild-wasm';
 import {
   compile,
   middleware,
@@ -6,14 +6,14 @@ import {
   RULESET,
   serialize,
   stringify
-} from "stylis";
-import Debug from "debug";
-import { globalConfig } from "./config";
-import { urlJoin } from "./path";
-import { InputFile } from "./types";
-import { inferLoader } from "./utils";
+} from 'stylis';
+import Debug from 'debug';
+import { globalConfig } from './config';
+import { urlJoin } from './path';
+import { InputFile } from './types';
+import { inferLoader } from './utils';
 
-const debug = Debug("code-kitchen:bundler");
+const debug = Debug('code-kitchen:bundler');
 
 function injectCSS(css: string, id: string) {
   // Append or replace the styles for ID
@@ -47,9 +47,9 @@ function compileCssModule(css: string, buildId: string) {
               return prop.replaceAll(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/g, (m) => {
                 const varName = m.slice(1);
                 if (!classMapping[varName]) {
-                  classMapping[varName] = varName + "_" + buildId;
+                  classMapping[varName] = varName + '_' + buildId;
                 }
-                return "." + classMapping[varName];
+                return '.' + classMapping[varName];
               });
             });
           }
@@ -94,7 +94,7 @@ const initEsbuild = async () => {
   try {
     if (!_init) {
       _init = esbuild.initialize({
-        wasmURL: urlJoin(globalConfig.esbuildWasmPath, "esbuild.wasm")
+        wasmURL: urlJoin(globalConfig.esbuildWasmPath, 'esbuild.wasm')
       });
     }
     await _init;
@@ -108,8 +108,8 @@ const initEsbuild = async () => {
 
 export function formatBuildErrors(errors: esbuild.PartialMessage[]) {
   return esbuild
-    .formatMessages(errors, { kind: "error" })
-    .then((res) => res.join("\n\n"));
+    .formatMessages(errors, { kind: 'error' })
+    .then((res) => res.join('\n\n'));
 }
 
 class Logger {
@@ -131,13 +131,13 @@ class Logger {
 const logger = new Logger();
 
 // https://esbuild.github.io/api/#resolve-extensions
-const RESOLVE_EXTENSIONS = [".tsx", ".ts", ".jsx", ".js", ""];
+const RESOLVE_EXTENSIONS = ['.tsx', '.ts', '.jsx', '.js', ''];
 
-const RESOLVE_NAMESPACE = "playground-input";
+const RESOLVE_NAMESPACE = 'playground-input';
 
 function resolvePlugin(files: InputFile[], buildId: string): esbuild.Plugin {
   return {
-    name: "resolve",
+    name: 'resolve',
     setup(build) {
       build.onStart(() => {
         logger.clear();
@@ -153,9 +153,9 @@ function resolvePlugin(files: InputFile[], buildId: string): esbuild.Plugin {
         }
 
         let file = files.find((f) => f.filename === args.path);
-        if (!file && args.path.startsWith("./")) {
+        if (!file && args.path.startsWith('./')) {
           for (const ext of RESOLVE_EXTENSIONS) {
-            file = files.find((f) => "./" + f.filename === args.path + ext);
+            file = files.find((f) => './' + f.filename === args.path + ext);
             if (file) {
               break;
             }
@@ -206,21 +206,21 @@ export async function bundle(files: InputFile[], buildId: string) {
   if (!files.length || files.length === 0 || !buildId) {
     return;
   }
-  let buildError = "";
+  let buildError = '';
   try {
     await initEsbuild();
     const result = await esbuild.build({
       entryPoints: [files[0].filename],
-      format: "cjs",
+      format: 'cjs',
       bundle: true,
       plugins: [resolvePlugin(files, buildId)],
       incremental: true,
       treeShaking: false,
       sourcemap: false,
-      target: "esnext"
+      target: 'esnext'
     });
 
-    const code = result.outputFiles.map((f) => f.text).join("\n");
+    const code = result.outputFiles.map((f) => f.text).join('\n');
     return code;
   } catch (error: any) {
     if (error.errors) {

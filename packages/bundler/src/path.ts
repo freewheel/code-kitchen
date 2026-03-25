@@ -1,6 +1,6 @@
 // Copied from https://github.com/egoist/play-esbuild
 function assertPath(path: string): void {
-  if (typeof path !== "string") {
+  if (typeof path !== 'string') {
     throw new TypeError(
       `Path must be a string. Received ${JSON.stringify(path)}`
     );
@@ -17,7 +17,7 @@ export function normalizeString(
   separator: string,
   isPathSeparator: (code: number) => boolean
 ): string {
-  let res = "";
+  let res = '';
   let lastSegmentLength = 0;
   let lastSlash = -1;
   let dots = 0;
@@ -40,7 +40,7 @@ export function normalizeString(
           if (res.length > 2) {
             const lastSlashIndex = res.lastIndexOf(separator);
             if (lastSlashIndex === -1) {
-              res = "";
+              res = '';
               lastSegmentLength = 0;
             } else {
               res = res.slice(0, lastSlashIndex);
@@ -50,7 +50,7 @@ export function normalizeString(
             dots = 0;
             continue;
           } else if (res.length === 2 || res.length === 1) {
-            res = "";
+            res = '';
             lastSegmentLength = 0;
             lastSlash = i;
             dots = 0;
@@ -59,7 +59,7 @@ export function normalizeString(
         }
         if (allowAboveRoot) {
           if (res.length > 0) res += `${separator}..`;
-          else res = "..";
+          else res = '..';
           lastSegmentLength = 2;
         }
       } else {
@@ -85,24 +85,24 @@ function isPosixPathSeparator(code: number): boolean {
 function normalize(path: string): string {
   assertPath(path);
 
-  if (path.length === 0) return ".";
+  if (path.length === 0) return '.';
 
   const isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
   const trailingSeparator =
     path.charCodeAt(path.length - 1) === CHAR_FORWARD_SLASH;
 
   // Normalize the path
-  path = normalizeString(path, !isAbsolute, "/", isPosixPathSeparator);
+  path = normalizeString(path, !isAbsolute, '/', isPosixPathSeparator);
 
-  if (path.length === 0 && !isAbsolute) path = ".";
-  if (path.length > 0 && trailingSeparator) path += "/";
+  if (path.length === 0 && !isAbsolute) path = '.';
+  if (path.length > 0 && trailingSeparator) path += '/';
 
   if (isAbsolute) return `/${path}`;
   return path;
 }
 
 export function join(...paths: string[]): string {
-  if (paths.length === 0) return ".";
+  if (paths.length === 0) return '.';
   let joined: string | undefined;
   for (let i = 0, len = paths.length; i < len; ++i) {
     const path = paths[i];
@@ -112,13 +112,13 @@ export function join(...paths: string[]): string {
       else joined += `/${path}`;
     }
   }
-  if (!joined) return ".";
+  if (!joined) return '.';
   return normalize(joined);
 }
 
 export function extname(path: string): string {
   const m = /(\.[a-zA-Z0-9]+)$/.exec(path);
-  return m ? m[1] : "";
+  return m ? m[1] : '';
 }
 
 export function urlJoin(url: string, ...args: string[]) {

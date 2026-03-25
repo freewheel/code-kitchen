@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { useInitMonaco } from "../components/use-init-monaco";
-import { InputFile } from "code-kitchen/src/types";
-import { Playground } from "code-kitchen";
-import dependencies from "../components/dependencies";
+import React, { useState } from 'react';
+import { useInitMonaco } from '../components/use-init-monaco';
+import { InputFile } from 'code-kitchen/src/types';
+import { Playground } from 'code-kitchen';
+import dependencies from '../components/dependencies';
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
-  const buttonText = isOpen ? "Close Playground" : "Open Playground";
+  const buttonText = isOpen ? 'Close Playground' : 'Open Playground';
   return (
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
         style={{
-          backgroundColor: "lightgray",
-          border: "solid 1px darkgrey",
-          borderRadius: "4px",
-          padding: "4px 8px",
-          margin: "8px 16px"
+          backgroundColor: 'lightgray',
+          border: 'solid 1px darkgrey',
+          borderRadius: '4px',
+          padding: '4px 8px',
+          margin: '8px 16px'
         }}
       >
         {buttonText}
@@ -55,7 +55,7 @@ const customRequire = (key: string) => {
     return res;
   }
 
-  throw new Error("DEP: " + key + " not found");
+  throw new Error('DEP: ' + key + ' not found');
 };
 
 function RemoteSourcePlayground({ src }: { src: string }) {
@@ -72,7 +72,7 @@ function RemoteSourcePlayground({ src }: { src: string }) {
 
   return (
     <Playground
-      id={"code-kitchen-playground"}
+      id={'code-kitchen-playground'}
       allowDisconnect
       name="Playground"
       className="h-screen"

@@ -1,9 +1,9 @@
-import { usePreviewComponent } from "@code-kitchen/bundler";
-import { deepEqual } from "fast-equals";
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { debug } from "./debug";
-import { FilesEditor } from "./files-editor";
+import { usePreviewComponent } from '@code-kitchen/bundler';
+import { deepEqual } from 'fast-equals';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { debug } from './debug';
+import { FilesEditor } from './files-editor';
 import {
   ConnectedIcon,
   DisconnectedIcon,
@@ -14,9 +14,9 @@ import {
   RotateToHorizontalIcon,
   RotateToVerticalIcon,
   ShowCodeIcon
-} from "./icons";
-import { InputFile } from "./types";
-import { genRandomStr } from "./utils";
+} from './icons';
+import { InputFile } from './types';
+import { genRandomStr } from './utils';
 
 function useDebouncedValue<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = React.useState(value);
@@ -35,7 +35,7 @@ function useDebouncedValue<T>(value: T, delay: number) {
   return debouncedValue;
 }
 
-const cx = (...args: string[]) => args.filter((s) => s).join(" ");
+const cx = (...args: string[]) => args.filter((s) => s).join(' ');
 
 function ControlButton({
   title,
@@ -53,7 +53,7 @@ function ControlButton({
       role="button"
       title={title}
       className={cx(
-        "code-kitchen-preview-panel-header-action-button",
+        'code-kitchen-preview-panel-header-action-button',
         className
       )}
       onClick={() => {
@@ -76,12 +76,12 @@ const BodyPortal = ({
 }) => {
   const [anchor, setAnchor] = React.useState(null);
   React.useEffect(() => {
-    if (typeof window !== "undefined" && !portal) {
+    if (typeof window !== 'undefined' && !portal) {
       return;
     }
-    const node = document.createElement("div");
+    const node = document.createElement('div');
     const portalEl = document.querySelector(portal);
-    node.classList.add("code-kitchen-portal");
+    node.classList.add('code-kitchen-portal');
     portalEl.appendChild(node);
     setAnchor(node);
     return () => {
@@ -97,17 +97,17 @@ const BodyPortal = ({
 
 const persistFiles = (id: string, files: InputFile[]) => {
   const filesStr = JSON.stringify(files);
-  sessionStorage.setItem("code-kitchen:" + id, filesStr);
+  sessionStorage.setItem('code-kitchen:' + id, filesStr);
 };
 
 const clearPersistedFiles = (id: string) => {
-  sessionStorage.removeItem("code-kitchen:" + id);
+  sessionStorage.removeItem('code-kitchen:' + id);
 };
 
 const recoverFiles = (id: string): InputFile[] | undefined => {
   try {
     return JSON.parse(
-      sessionStorage.getItem("code-kitchen:" + id) ?? "undefined"
+      sessionStorage.getItem('code-kitchen:' + id) ?? 'undefined'
     );
   } catch {
     return undefined;
@@ -119,7 +119,7 @@ const hash = (str: string) => {
   for (let i = 0; i < str.length; ++i)
     hash = Math.imul(31, hash) + str.charCodeAt(i);
 
-  return "" + (hash | 0);
+  return '' + (hash | 0);
 };
 
 const safeId = (id?: string) => hash(id ? id : genRandomStr());
@@ -133,24 +133,24 @@ export function Playground({
   id, // if id is given, it will be used as the key for the sessionStorage
   allowDisconnect = false,
   live: defaultLive = true,
-  dir: defaultDir = "h"
+  dir: defaultDir = 'h'
 }: {
   id?: string;
   className?: string;
   initialFiles: InputFile[];
   require: (key: string) => any;
   live?: boolean;
-  dir?: "v" | "h";
+  dir?: 'v' | 'h';
   allowDisconnect?: boolean;
   style?: React.CSSProperties;
   name?: string;
 }) {
   const [internalId] = React.useState(
-    () => "code-kitchen-" + safeId(id ?? genRandomStr())
+    () => 'code-kitchen-' + safeId(id ?? genRandomStr())
   );
   const cacheFiles = !!id;
   const [files, setFiles] = React.useState(initialFiles);
-  const [dir, setDir] = React.useState<"v" | "h">(defaultDir);
+  const [dir, setDir] = React.useState<'v' | 'h'>(defaultDir);
   const [connected, setConnected] = React.useState(true);
 
   const [fullScreen, setFullScreen] = React.useState(false);
@@ -191,18 +191,18 @@ export function Playground({
       cacheFiles && persistedRef.current && recoverFiles(internalId);
     setFiles(recovered || initialFiles);
     if (recovered) {
-      debug("Recovered files from sessionStorage");
+      debug('Recovered files from sessionStorage');
     }
   }, [cacheFiles, internalId, initialFiles]);
 
   return (
-    <BodyPortal portal={fullScreen ? "body" : undefined}>
+    <BodyPortal portal={fullScreen ? 'body' : undefined}>
       <div
         id={id}
         style={style}
         className={cx(
-          "code-kitchen-root",
-          !realConnected && "code-kitchen-disconnected",
+          'code-kitchen-root',
+          !realConnected && 'code-kitchen-disconnected',
           className
         )}
         data-dir={dir}
@@ -228,13 +228,13 @@ export function Playground({
                 <ControlButton
                   title="Toggle Layout"
                   icon={
-                    dir === "h" ? (
+                    dir === 'h' ? (
                       <RotateToVerticalIcon />
                     ) : (
                       <RotateToHorizontalIcon />
                     )
                   }
-                  onClick={() => setDir(dir === "h" ? "v" : "h")}
+                  onClick={() => setDir(dir === 'h' ? 'v' : 'h')}
                 />
               )}
               <ControlButton
@@ -251,14 +251,14 @@ export function Playground({
           </div>
           <div className="code-kitchen-preview-panel-preview-container">
             <div className="code-kitchen-preview-panel-preview-content">
-              {bundling && !Preview ? "loading ..." : Preview && <Preview />}
+              {bundling && !Preview ? 'loading ...' : Preview && <Preview />}
             </div>
             {error && (
               <div
                 className="code-kitchen-preview-panel-preview-error"
                 style={{
                   opacity: realShowError ? 1 : 0,
-                  pointerEvents: realShowError ? "all" : "none"
+                  pointerEvents: realShowError ? 'all' : 'none'
                 }}
               >
                 <pre>{error.toString()}</pre>

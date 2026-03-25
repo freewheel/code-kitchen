@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import * as React from "react";
+import * as React from 'react';
 
 export const h1 = ({ children }) => {
   return (
@@ -43,7 +43,7 @@ export const p = ({ children }) => {
 
 export const ul = ({ children }) => {
   return (
-    <ul className={"font-sans leading-relaxed list-disc pl-10 my-2"}>
+    <ul className={'font-sans leading-relaxed list-disc pl-10 my-2'}>
       {children}
     </ul>
   );

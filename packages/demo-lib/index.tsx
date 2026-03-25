@@ -1,7 +1,7 @@
-import * as React from "react";
+import * as React from 'react';
 
 export function MovingDot({
-  color = "red",
+  color = 'red',
   size = 20,
   className,
   children
@@ -36,9 +36,9 @@ export function MovingDot({
       }}
       className={className}
       style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
         top: 0,
         left: 0
       }}
@@ -46,17 +46,17 @@ export function MovingDot({
       <div
         data-testid="moving-dot-inner"
         style={{
-          position: "absolute",
+          position: 'absolute',
           backgroundColor: color,
-          borderRadius: "50%",
+          borderRadius: '50%',
           transform: `translate(${position.x}px, ${position.y}px)`,
           left: -size / 2,
           top: -size / 2,
           width: size,
           height: size,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
         {children}

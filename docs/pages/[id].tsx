@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import { MDXRemote } from "next-mdx-remote";
-import { getPostData, getPostsData } from "../lib/posts";
+import React from 'react';
+import { MDXRemote } from 'next-mdx-remote';
+import { getPostData, getPostsData } from '../lib/posts';
 
-import * as mdxComponents from "../components/mdx";
-import { Playground } from "../components/MDXPlayground";
+import * as mdxComponents from '../components/mdx';
+import { Playground } from '../components/MDXPlayground';
 
 const components = { Playground, ...mdxComponents };
 

@@ -1,12 +1,12 @@
-import monacoLoader from "@monaco-editor/loader";
-import { useEffect, useState } from "react";
-import { globalConfig } from "./config";
-import { debug } from "./debug";
-import { urlJoin } from "./path";
+import monacoLoader from '@monaco-editor/loader';
+import { useEffect, useState } from 'react';
+import { globalConfig } from './config';
+import { debug } from './debug';
+import { urlJoin } from './path';
 
-const filePrefix = "file:///";
+const filePrefix = 'file:///';
 
-let _cached_monaco: typeof import("monaco-editor") | null = null;
+let _cached_monaco: typeof import('monaco-editor') | null = null;
 let _monacoInitialized: Promise<void> | null = null;
 
 // My own version of useMonaco
@@ -15,10 +15,10 @@ export function useMonaco() {
   useEffect(() => {
     if (!_monacoInitialized) {
       _monacoInitialized = (async () => {
-        debug("useMonaco: initializing monaco");
+        debug('useMonaco: initializing monaco');
         monacoLoader.config({
           paths: {
-            vs: urlJoin(globalConfig.monacoEditorPath, "vs")
+            vs: urlJoin(globalConfig.monacoEditorPath, 'vs')
           }
         });
 
@@ -72,7 +72,7 @@ export function useMonaco() {
         tsLang.javascriptDefaults.setCompilerOptions(tsConfig);
         tsDefaults.setCompilerOptions(tsConfig);
         _cached_monaco = _monaco;
-        debug("useMonaco: monaco initialized");
+        debug('useMonaco: monaco initialized');
       })();
     }
 

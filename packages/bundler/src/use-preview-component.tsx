@@ -1,10 +1,10 @@
-import Debug from "debug";
-import React, { Component } from "react";
+import Debug from 'debug';
+import React, { Component } from 'react';
 
-import { bundle } from "./bundle";
-import { InputFile } from "./types";
+import { bundle } from './bundle';
+import { InputFile } from './types';
 
-const debug = Debug("code-kitchen:bundler");
+const debug = Debug('code-kitchen:bundler');
 
 export const errorBoundary = (
   id: string,
@@ -26,8 +26,8 @@ export const errorBoundary = (
         return null;
       }
       return (
-        <div className={id} style={{ display: "contents" }}>
-          {typeof Element === "function" ? <Element /> : Element}
+        <div className={id} style={{ display: 'contents' }}>
+          {typeof Element === 'function' ? <Element /> : Element}
         </div>
       );
     }

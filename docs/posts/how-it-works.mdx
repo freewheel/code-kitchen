@@ -93,8 +93,8 @@ Now that all playground are bundled in a single large string, which is a common 
 
 ````md
 ```js
-import { Button } from "my-private-button-lib";
-import "./styles.css";
+import { Button } from 'my-private-button-lib';
+import './styles.css';
 
 export default function Demo() {
   return <Button>Button</Button>;
@@ -118,18 +118,18 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __markAsModule = (target) =>
-  __defProp(target, "__esModule", { value: true });
+  __defProp(target, '__esModule', { value: true });
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __reExport = (target, module2, copyDefault, desc) => {
   if (
-    (module2 && typeof module2 === "object") ||
-    typeof module2 === "function"
+    (module2 && typeof module2 === 'object') ||
+    typeof module2 === 'function'
   ) {
     for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
+      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== 'default'))
         __defProp(target, key, {
           get: () => module2[key],
           enumerable:
@@ -143,7 +143,7 @@ var __toESM = (module2, isNodeMode) => {
     __markAsModule(
       __defProp(
         module2 != null ? __create(__getProtoOf(module2)) : {},
-        "default",
+        'default',
         !isNodeMode && module2 && module2.__esModule
           ? { get: () => module2.default, enumerable: true }
           : { value: module2, enumerable: true }
@@ -161,7 +161,7 @@ var __toCommonJS = /* @__PURE__ */ ((cache) => {
       temp)
     );
   };
-})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+})(typeof WeakMap !== 'undefined' ? /* @__PURE__ */ new WeakMap() : 0);
 
 // playground-input:App.jsx
 var App_exports = {};
@@ -171,19 +171,19 @@ __export(App_exports, {
 
 // playground-input:styles.css
 (function () {
-  const style = document.createElement("style");
-  style.innerHTML = ".esscu button{width:200px;}";
-  style.setAttribute("data-playground-style-id", "esscu");
+  const style = document.createElement('style');
+  style.innerHTML = '.esscu button{width:200px;}';
+  style.setAttribute('data-playground-style-id', 'esscu');
   document.head.appendChild(style);
 })();
 
 // playground-input:App.jsx
-var import_private_button_lib = __toESM(require("my-private-button-lib"));
+var import_private_button_lib = __toESM(require('my-private-button-lib'));
 function Demo() {
   return /* @__PURE__ */ React.createElement(
     import_private_button_lib.Button,
     null,
-    "Button"
+    'Button'
   );
 }
 module.exports = __toCommonJS(App_exports);
@@ -199,11 +199,11 @@ The above module will be wrapped as `((require, module) => { ... content }))(req
 You can see in the bundled code there is a `require('my-private-button-lib')` call, which is the CJS version of `import 'my-private-button-lib'`. Thus, we can provide a customized `require` to inject external modules.
 
 ```js
-import * as privateLib from "my-private-button-lib";
+import * as privateLib from 'my-private-button-lib';
 // ...
 
 const dependencies = {
-  "my-private-button-lib": privateLib
+  'my-private-button-lib': privateLib
   // ...
 };
 

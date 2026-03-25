@@ -1,12 +1,12 @@
 // Note: this file will be used in getStaticProps and must use CJS
-const fsp = require("fs/promises");
-const path = require("path");
-const fs = require("fs");
+const fsp = require('fs/promises');
+const path = require('path');
+const fs = require('fs');
 
 const entryFilePattern = /^index\..*\.[tj]sx?/;
 const demosBaseDir = path.resolve(
   process.cwd(),
-  "./lib/remote-source-examples"
+  './lib/remote-source-examples'
 );
 // const demosBaseDir = path.resolve(process.cwd(), './pages/demos');
 
@@ -39,7 +39,7 @@ async function getRemoteSourceExamples() {
   const paths = await getRemoteEntries(demosBaseDir);
   return paths.map((p) => {
     const entry = path.relative(demosBaseDir, p);
-    return entry.substring(0, entry.lastIndexOf("/"));
+    return entry.substring(0, entry.lastIndexOf('/'));
   });
 }
 
@@ -60,10 +60,10 @@ async function getRemoteSourceFiles(entryDir) {
     filenames.map(async (filename) => {
       const content = await fsp.readFile(
         path.join(demosBaseDir, entryDir, filename),
-        "utf8"
+        'utf8'
       );
       // Strip off page extension
-      const newFilename = filename.replace(".page", "");
+      const newFilename = filename.replace('.page', '');
       return {
         code: content,
         filename: newFilename

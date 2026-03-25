@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { getDemoFiles } from "../../lib/remote-source";
-import { NextApiRequest, NextApiResponse } from "next";
+import { getDemoFiles } from '../../lib/remote-source';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,7 +9,7 @@ export default async function handler(
   const { src } = req.query;
   if (Array.isArray(src) || !src) {
     return res.status(400).json({
-      error: "src must be a string"
+      error: 'src must be a string'
     });
   }
   res.json({
