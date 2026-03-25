@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "license": "Apache-2.0",
+  "packageManager": "pnpm@10.32.1",
   "devDependencies": {
     "@playwright/test": "^1.21.1",
     "@semantic-release/changelog": "^6.0.1",
@@ -24,6 +25,7 @@
   },
   "scripts": {
     "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "prepare": "husky install",
     "dev": "pnpm --dir docs dev",
     "test": "pnpm --dir docs test"

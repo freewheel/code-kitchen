@@ -20,29 +20,25 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
 
-      - name: Set node version to 17.x
-        uses: actions/setup-node@v3
+      - name: Set node version to 24.x
+        uses: actions/setup-node@v6
         with:
-          node-version: 17.x
+          node-version: 24
 
-      - name: Cache pnpm modules
-        uses: actions/cache@v2
+      - uses: pnpm/action-setup@v4
         with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 6
+          version: 10
 
       - name: Install deps
         run: |
           pnpm install
           npx playwright install-deps chromium
+      
+      - name: Oxfmt
+        run: |
+          pnpm format:check
 
-      - name: Run tests
+      - name: Test
         run: pnpm test
