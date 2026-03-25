@@ -16,7 +16,7 @@ const glob = JSON.parse(packageJson);
 Object.assign(glob, {
   main: "./index.js",
   module: "./index.mjs",
-  types: "./index.d.ts",
+  types: "./index.d.ts"
 });
 
 fs.writeFileSync("dist/package.json", JSON.stringify(glob, null, 2));

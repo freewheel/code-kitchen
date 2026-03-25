@@ -17,7 +17,7 @@ setup({
     `/libs/esbuild-wasm/${esbuildWasmMeta.version}`,
   monacoEditorPath:
     (isProd ? "/code-kitchen" : "") +
-    `/libs/monaco-editor/${monacoEditorMeta.version}/min`,
+    `/libs/monaco-editor/${monacoEditorMeta.version}/min`
 });
 
 export const useHasMounted = () => {
@@ -43,7 +43,7 @@ export const Playground = ({
   className,
   name,
   live,
-  dir,
+  dir
 }: {
   children: string;
   /**
@@ -97,7 +97,7 @@ export const Playground = ({
         code: props.children as string,
         hidden,
         entry: index === 0,
-        filename,
+        filename
       };
     })
     .filter(Boolean);

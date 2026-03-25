@@ -21,7 +21,7 @@ const App = ({ Component, pageProps }) => {
           
             window.addEventListener('unhandledrejection', event => {
               event.stopImmediatePropagation()
-            })`,
+            })`
             }}
           />
         )}

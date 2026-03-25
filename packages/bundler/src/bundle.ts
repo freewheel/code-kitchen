@@ -5,7 +5,7 @@ import {
   prefixer,
   RULESET,
   serialize,
-  stringify,
+  stringify
 } from "stylis";
 import Debug from "debug";
 import { globalConfig } from "./config";
@@ -55,13 +55,13 @@ function compileCssModule(css: string, buildId: string) {
           }
         }
       },
-      stringify,
+      stringify
     ])
   );
 
   return {
     contents: `${injectCSS(res, buildId)}
-    export default ${JSON.stringify(classMapping)}`,
+    export default ${JSON.stringify(classMapping)}`
   };
 }
 
@@ -72,14 +72,14 @@ function compileScopedCss(css: string, buildId: string) {
   );
 
   return {
-    contents: injectCSS(value, buildId),
+    contents: injectCSS(value, buildId)
   };
 }
 
 function compileGlobalCss(css: string, buildId: string) {
   const value = serialize(compile(css), middleware([prefixer, stringify]));
   return {
-    contents: injectCSS(value, buildId),
+    contents: injectCSS(value, buildId)
   };
 }
 
@@ -94,7 +94,7 @@ const initEsbuild = async () => {
   try {
     if (!_init) {
       _init = esbuild.initialize({
-        wasmURL: urlJoin(globalConfig.esbuildWasmPath, "esbuild.wasm"),
+        wasmURL: urlJoin(globalConfig.esbuildWasmPath, "esbuild.wasm")
       });
     }
     await _init;
@@ -168,14 +168,14 @@ function resolvePlugin(files: InputFile[], buildId: string): esbuild.Plugin {
         if (file) {
           return {
             path: file.filename,
-            namespace: RESOLVE_NAMESPACE,
+            namespace: RESOLVE_NAMESPACE
           };
         }
 
         // Treat all others as external - to be resolved by the require function
         return {
           path: args.path,
-          external: true,
+          external: true
         };
       });
 
@@ -193,12 +193,12 @@ function resolvePlugin(files: InputFile[], buildId: string): esbuild.Plugin {
             }
             return {
               contents: file.code,
-              loader: inferLoader(file.filename),
+              loader: inferLoader(file.filename)
             };
           }
         }
       );
-    },
+    }
   };
 }
 
@@ -217,7 +217,7 @@ export async function bundle(files: InputFile[], buildId: string) {
       incremental: true,
       treeShaking: false,
       sourcemap: false,
-      target: "esnext",
+      target: "esnext"
     });
 
     const code = result.outputFiles.map((f) => f.text).join("\n");

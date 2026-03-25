@@ -22,7 +22,7 @@ export const useInitMonaco = () => {
 
     const allTypes = [
       [`${filePrefix}/${typesPrefix}/react/index.d.ts`, reactTyping],
-      [`${filePrefix}/demo-lib/index.tsx`, demoLibSrc],
+      [`${filePrefix}/demo-lib/index.tsx`, demoLibSrc]
     ];
 
     // Dispose?

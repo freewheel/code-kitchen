@@ -18,8 +18,8 @@ export function useMonaco() {
         debug("useMonaco: initializing monaco");
         monacoLoader.config({
           paths: {
-            vs: urlJoin(globalConfig.monacoEditorPath, "vs"),
-          },
+            vs: urlJoin(globalConfig.monacoEditorPath, "vs")
+          }
         });
 
         const _monaco =
@@ -40,7 +40,7 @@ export function useMonaco() {
           baseUrl: filePrefix,
           moduleResolution: tsLang.ModuleResolutionKind.NodeJs,
           noImplicitAny: false,
-          suppressImplicitAnyIndexErrors: true,
+          suppressImplicitAnyIndexErrors: true
         };
 
         tsDefaults.addExtraLib(`
@@ -61,10 +61,10 @@ export function useMonaco() {
         // validation settings
         tsLang.javascriptDefaults.setDiagnosticsOptions({
           noSemanticValidation: true,
-          noSyntaxValidation: false,
+          noSyntaxValidation: false
         });
         tsDefaults.setDiagnosticsOptions({
-          noSyntaxValidation: false,
+          noSyntaxValidation: false
         });
         tsDefaults.setEagerModelSync(true);
         jsDefaults.setEagerModelSync(true);

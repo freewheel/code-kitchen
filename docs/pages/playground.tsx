@@ -33,7 +33,7 @@ export default () => {
   );
 };
   `,
-    filename: "App.tsx",
+    filename: "App.tsx"
   },
   {
     code: `
@@ -52,8 +52,8 @@ export default () => {
 .tada {
   font-size: 20px;
 }`,
-    filename: "styles.module.css",
-  },
+    filename: "styles.module.css"
+  }
 ];
 
 export default function PlaygroundPage() {

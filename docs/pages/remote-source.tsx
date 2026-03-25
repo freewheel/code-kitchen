@@ -16,7 +16,7 @@ export default function Page() {
           border: "solid 1px darkgrey",
           borderRadius: "4px",
           padding: "4px 8px",
-          margin: "8px 16px",
+          margin: "8px 16px"
         }}
       >
         {buttonText}

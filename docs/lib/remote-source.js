@@ -66,7 +66,7 @@ async function getRemoteSourceFiles(entryDir) {
       const newFilename = filename.replace(".page", "");
       return {
         code: content,
-        filename: newFilename,
+        filename: newFilename
       };
     })
   );
@@ -77,5 +77,5 @@ async function getRemoteSourceFiles(entryDir) {
 module.exports = {
   getDemos: getRemoteSourceExamples,
   getDemoFiles: getRemoteSourceFiles,
-  getDemoEntries: getRemoteEntries,
+  getDemoEntries: getRemoteEntries
 };

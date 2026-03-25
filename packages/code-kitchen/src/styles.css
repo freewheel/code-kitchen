@@ -137,7 +137,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
   margin-left: 8px;
 }
 
@@ -287,7 +289,10 @@
   border-top: 1px solid var(--code-kitchen-border-color);
 }
 
-:is(.code-kitchen-root[data-dir="v"], .code-kitchen-root[data-show-code="false"])
+:is(
+    .code-kitchen-root[data-dir="v"],
+    .code-kitchen-root[data-show-code="false"]
+  )
   .code-kitchen-preview-panel-header {
   border-top-left-radius: var(--code-kitchen-border-radius);
   border-top-right-radius: var(--code-kitchen-border-radius);

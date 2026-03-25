@@ -13,7 +13,7 @@ import {
   HideCodeIcon,
   RotateToHorizontalIcon,
   RotateToVerticalIcon,
-  ShowCodeIcon,
+  ShowCodeIcon
 } from "./icons";
 import { InputFile } from "./types";
 import { genRandomStr } from "./utils";
@@ -41,7 +41,7 @@ function ControlButton({
   title,
   icon,
   onClick,
-  className,
+  className
 }: {
   title: string;
   icon: React.ReactNode;
@@ -69,7 +69,7 @@ function ControlButton({
 // Fullscreen will always render to the boday
 const BodyPortal = ({
   portal,
-  children,
+  children
 }: {
   portal?: string;
   children: React.ReactNode;
@@ -133,7 +133,7 @@ export function Playground({
   id, // if id is given, it will be used as the key for the sessionStorage
   allowDisconnect = false,
   live: defaultLive = true,
-  dir: defaultDir = "h",
+  dir: defaultDir = "h"
 }: {
   id?: string;
   className?: string;
@@ -258,7 +258,7 @@ export function Playground({
                 className="code-kitchen-preview-panel-preview-error"
                 style={{
                   opacity: realShowError ? 1 : 0,
-                  pointerEvents: realShowError ? "all" : "none",
+                  pointerEvents: realShowError ? "all" : "none"
                 }}
               >
                 <pre>{error.toString()}</pre>

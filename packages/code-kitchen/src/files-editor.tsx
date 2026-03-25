@@ -93,8 +93,8 @@ function useMonacoEditor(
         smoothScrolling: true,
         scrollbar: {
           alwaysConsumeMouseWheel: true,
-          handleMouseWheel: false,
-        },
+          handleMouseWheel: false
+        }
       });
       setEditor(newEditor);
       if (window.__monaco_editors__) {
@@ -103,15 +103,15 @@ function useMonacoEditor(
       newEditor.onDidFocusEditorText(() => {
         newEditor?.updateOptions({
           scrollbar: {
-            handleMouseWheel: true,
-          },
+            handleMouseWheel: true
+          }
         });
       });
       newEditor.onDidBlurEditorText(() => {
         newEditor?.updateOptions({
           scrollbar: {
-            handleMouseWheel: false,
-          },
+            handleMouseWheel: false
+          }
         });
       });
       return () => {
@@ -154,7 +154,7 @@ export function FilesEditor({
   internalId,
   initialFiles,
   files,
-  onChange,
+  onChange
 }: {
   id: string;
   internalId: string;

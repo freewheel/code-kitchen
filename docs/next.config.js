@@ -8,7 +8,7 @@ module.exports = async () => {
   const withTM = require("next-transpile-modules")([
     "code-kitchen",
     "@code-kitchen/bundler",
-    "demo-lib",
+    "demo-lib"
   ]);
 
   const isProd = process.env.NODE_ENV === "production";
@@ -21,10 +21,10 @@ module.exports = async () => {
     swcMinify: false,
     pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
     typescript: {
-      ignoreBuildErrors: true,
+      ignoreBuildErrors: true
     },
     eslint: {
-      ignoreDuringBuilds: true,
+      ignoreDuringBuilds: true
     },
     assetPrefix: isProd ? "/code-kitchen/" : "",
     async redirects() {
@@ -32,8 +32,8 @@ module.exports = async () => {
         {
           source: "/",
           destination: "/home",
-          permanent: false,
-        },
+          permanent: false
+        }
       ];
     },
     /**
@@ -51,7 +51,7 @@ module.exports = async () => {
 
       // Fix "Module not found: ESM packages (supports-color) need to be imported." issue
       Object.assign(config.resolve.alias, {
-        debug: require.resolve("debug/src/browser.js"),
+        debug: require.resolve("debug/src/browser.js")
       });
 
       config.plugins.push(
@@ -64,7 +64,7 @@ module.exports = async () => {
                 `esbuild-wasm`,
                 esbuildWasmVersion,
                 `esbuild.wasm`
-              ),
+              )
             },
             {
               from: path.join(
@@ -76,7 +76,7 @@ module.exports = async () => {
                 `monaco-editor`,
                 monacoEditorVersion,
                 `min`
-              ),
+              )
             },
 
             // also include React types
@@ -88,19 +88,19 @@ module.exports = async () => {
                   path.relative(context, absoluteFilename)
                 );
               },
-              context: "node_modules/@types",
+              context: "node_modules/@types"
             },
 
             // ... and demo lib src
             {
               from: path.resolve(__dirname, "../packages/demo-lib"),
-              to: path.join(publicTypesDir, `demo-lib`),
-            },
-          ],
+              to: path.join(publicTypesDir, `demo-lib`)
+            }
+          ]
         })
       );
       return config;
-    },
+    }
   };
   return withTM(nextConfig);
 };

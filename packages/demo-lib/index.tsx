@@ -4,7 +4,7 @@ export function MovingDot({
   color = "red",
   size = 20,
   className,
-  children,
+  children
 }: {
   color?: string;
   size?: number;
@@ -13,7 +13,7 @@ export function MovingDot({
 }) {
   const [position, setPosition] = React.useState({
     x: 0,
-    y: 0,
+    y: 0
   });
 
   const containerPosRef = React.useRef<DOMRect>(null);
@@ -31,7 +31,7 @@ export function MovingDot({
       onPointerMove={(e) => {
         setPosition({
           x: e.clientX - containerPosRef.current.left,
-          y: e.clientY - containerPosRef.current.top,
+          y: e.clientY - containerPosRef.current.top
         });
       }}
       className={className}
@@ -40,7 +40,7 @@ export function MovingDot({
         width: "100%",
         height: "100%",
         top: 0,
-        left: 0,
+        left: 0
       }}
     >
       <div
@@ -56,7 +56,7 @@ export function MovingDot({
           height: size,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "center"
         }}
       >
         {children}

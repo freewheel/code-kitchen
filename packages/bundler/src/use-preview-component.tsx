@@ -47,7 +47,7 @@ const generatePreviewComponent = (
   id: string,
   {
     input,
-    scope = {},
+    scope = {}
   }: {
     input: string;
     scope: Record<string, any>;
@@ -56,13 +56,13 @@ const generatePreviewComponent = (
 ) => {
   try {
     const _module: any = {
-      exports: {},
+      exports: {}
     };
     evalCode(input, {
       ...scope,
       exports: _module.exports,
       module: _module,
-      React,
+      React
     });
     const El = _module.exports.default;
     return errorBoundary(id, El, errorCallback);
@@ -101,7 +101,7 @@ export const usePreviewComponent = (
           id,
           {
             input: bundledCode,
-            scope: { require },
+            scope: { require }
           },
           setError
         );
@@ -130,6 +130,6 @@ export const usePreviewComponent = (
   return {
     Preview,
     bundling,
-    error,
+    error
   };
 };

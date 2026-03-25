@@ -20,7 +20,7 @@ export async function getPostsData() {
       // Combine the data with the id
       return {
         id,
-        fileName,
+        fileName
       };
     })
   );
@@ -35,11 +35,11 @@ export async function getPostData(id: string) {
   const mdxSource = await serialize(source, {
     mdxOptions: {
       remarkPlugins: [remarkGfm],
-      rehypePlugins: [codeMetaPlugin],
-    },
+      rehypePlugins: [codeMetaPlugin]
+    }
   });
 
   return {
-    source: mdxSource,
+    source: mdxSource
   };
 }

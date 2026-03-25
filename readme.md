@@ -36,7 +36,7 @@ import * as privateLib from "my-private-lib";
 
 const dependencies = {
   react: React,
-  "my-private-lib": privateLib,
+  "my-private-lib": privateLib
 };
 
 const customRequire = (key: string) => {
@@ -60,12 +60,12 @@ export default function Demo() {
   return <Button>Button</Button>;
 }
   `,
-    filename: "App.jsx",
+    filename: "App.jsx"
   },
   {
     code: `button { width: 200px; }`,
-    filename: "styles.css",
-  },
+    filename: "styles.css"
+  }
 ];
 
 export default () => {

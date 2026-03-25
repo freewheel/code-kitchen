@@ -20,15 +20,15 @@ export async function getStaticPaths() {
   const items = await getPostsData();
   return {
     paths: items.map((item) => ({
-      params: { id: item.id, original: item.fileName },
+      params: { id: item.id, original: item.fileName }
     })),
-    fallback: false,
+    fallback: false
   };
 }
 
 export async function getStaticProps({ params }) {
   const data = await getPostData(params.id);
   return {
-    props: data,
+    props: data
   };
 }
