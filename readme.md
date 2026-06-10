@@ -1,4 +1,6 @@
-> [!WARNING] > **This repository is archived and is no longer actively maintained.** No new issues, pull requests, or releases will be accepted.
+> [!WARNING]
+> **This repository is archived and is no longer actively maintained.** No new issues, pull requests, or releases will be accepted.
+
 
 # Code Kitchen 🧑‍🍳
 
