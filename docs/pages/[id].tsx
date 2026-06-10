@@ -8,9 +8,10 @@ import { Playground } from "../components/MDXPlayground";
 
 const components = { Playground, ...mdxComponents };
 
-export default function Post({ source }) {
+export default function Post({ source, id }) {
   return (
     <div className="max-w-3xl mx-auto py-12 px-8">
+      {id === "home" && <mdxComponents.ArchiveBanner />}
       <MDXRemote {...source} components={components} />
     </div>
   );
@@ -29,6 +30,6 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const data = await getPostData(params.id);
   return {
-    props: data,
+    props: { ...data, id: params.id },
   };
 }
