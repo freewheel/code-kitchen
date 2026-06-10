@@ -1,3 +1,7 @@
+> [!WARNING]
+> **This repository is archived and is no longer actively maintained.** No new issues, pull requests, or releases will be accepted.
+
+
 # Code Kitchen 🧑‍🍳
 
 **Code Kitchen** is a React live-coding playground which allows the developers to embed React component demos into a React UI library’s web documents.

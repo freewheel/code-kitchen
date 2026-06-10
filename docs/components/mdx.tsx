@@ -68,3 +68,13 @@ export const pre = (props) => {
     </pre>
   );
 };
+
+export const ArchiveBanner = () => {
+  return (
+    <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-900 px-4 py-3 mb-6 rounded font-sans text-sm">
+      <strong>⚠️ Archived Repository</strong> — This repository is archived and
+      is no longer actively maintained. No new issues, pull requests, or
+      releases will be accepted.
+    </div>
+  );
+};
