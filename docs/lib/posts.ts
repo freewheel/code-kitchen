@@ -22,7 +22,7 @@ export async function getPostsData() {
         id,
         fileName,
       };
-    })
+    }),
   );
   // Sort posts by date
   return allPostsData;

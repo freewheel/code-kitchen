@@ -38,7 +38,7 @@ function useRemoteSources(src?: string) {
           }
           const { files } = await res.json();
           setFiles(files);
-        }
+        },
       );
       return () => {
         cancelled = true;

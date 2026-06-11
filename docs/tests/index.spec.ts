@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test("preview is rendered", async ({ page }) => {
   const movingDot = page.locator(
-    `.code-kitchen-preview-panel >> [data-testid="moving-dot-inner"]`
+    `.code-kitchen-preview-panel >> [data-testid="moving-dot-inner"]`,
   );
   await expect(movingDot).toHaveCount(1);
 });
@@ -19,11 +19,11 @@ test("code panel is rendered", async ({ page }) => {
 
 test("update the color of moving dot", async ({ page }) => {
   const movingDot = page.locator(
-    `.code-kitchen-preview-panel >> [data-testid="moving-dot-inner"]`
+    `.code-kitchen-preview-panel >> [data-testid="moving-dot-inner"]`,
   );
 
   expect(await movingDot.evaluate((el) => el.style.backgroundColor)).toBe(
-    "white"
+    "white",
   );
 
   // Focus the code editor
@@ -48,7 +48,7 @@ test("update the color of moving dot", async ({ page }) => {
   await page.waitForTimeout(1000);
 
   expect(await movingDot.evaluate((el) => el.style.backgroundColor)).toBe(
-    "red"
+    "red",
   );
 
   // Reset the code editor and we will get the color back
@@ -58,6 +58,6 @@ test("update the color of moving dot", async ({ page }) => {
   await page.waitForTimeout(1000);
 
   expect(await movingDot.evaluate((el) => el.style.backgroundColor)).toBe(
-    "white"
+    "white",
   );
 });

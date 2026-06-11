@@ -18,7 +18,7 @@ declare global {
 function useModels(id: string, files: InputFile[]) {
   const monaco = useMonaco();
   const modelsRef = useRef<import("monaco-editor").editor.IModel[] | null>(
-    null
+    null,
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setCounter] = useState(0);
@@ -47,7 +47,7 @@ function useModels(id: string, files: InputFile[]) {
         return monaco.editor.createModel(
           f.code,
           inferLanguage(f.filename),
-          getFileUri(f.filename)
+          getFileUri(f.filename),
         );
       });
       modelsRef.current = newModels;
@@ -55,7 +55,7 @@ function useModels(id: string, files: InputFile[]) {
     } else {
       modelsRef.current.forEach((m) => {
         const latestCode = files.find(
-          (f) => getFileUri(f.filename).path === m.uri.path
+          (f) => getFileUri(f.filename).path === m.uri.path,
         )?.code;
         if (!m.isDisposed() && m.getValue() !== latestCode) {
           m.setValue(latestCode ?? "");
@@ -73,7 +73,7 @@ function useMonacoEditor(
   ref: React.RefObject<HTMLElement>,
   files: InputFile[],
   onChange: (code: string, filename: string) => void,
-  activeFileName: string
+  activeFileName: string,
 ) {
   const monaco = useMonaco();
   const models = useModels(internalId, files);
@@ -125,7 +125,7 @@ function useMonacoEditor(
 
   useEffect(() => {
     const activeModel = models?.find((m) =>
-      m.uri.path.endsWith(activeFileName)
+      m.uri.path.endsWith(activeFileName),
     );
     if (
       editor &&
@@ -183,7 +183,7 @@ export function FilesEditor({
         onChange(newFiles);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   const activeFile = files.find((f) => f.filename === activeTab);
@@ -207,7 +207,7 @@ export function FilesEditor({
     editorWrapperRef,
     files,
     onFileChange,
-    activeTab
+    activeTab,
   );
 
   return (

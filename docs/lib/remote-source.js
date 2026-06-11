@@ -6,7 +6,7 @@ const fs = require("fs");
 const entryFilePattern = /^index\..*\.[tj]sx?/;
 const demosBaseDir = path.resolve(
   process.cwd(),
-  "./lib/remote-source-examples"
+  "./lib/remote-source-examples",
 );
 // const demosBaseDir = path.resolve(process.cwd(), './pages/demos');
 
@@ -30,7 +30,7 @@ async function getRemoteEntries(pathOrDir) {
     paths.map(async (p) => {
       const fullPath = path.join(pathOrDir, p);
       return getRemoteEntries(fullPath);
-    })
+    }),
   );
   return results.flat();
 }
@@ -60,7 +60,7 @@ async function getRemoteSourceFiles(entryDir) {
     filenames.map(async (filename) => {
       const content = await fsp.readFile(
         path.join(demosBaseDir, entryDir, filename),
-        "utf8"
+        "utf8",
       );
       // Strip off page extension
       const newFilename = filename.replace(".page", "");
@@ -68,7 +68,7 @@ async function getRemoteSourceFiles(entryDir) {
         code: content,
         filename: newFilename,
       };
-    })
+    }),
   );
 
   return inputFiles;

@@ -9,7 +9,7 @@ const debug = Debug("code-kitchen:bundler");
 export const errorBoundary = (
   id: string,
   Element: React.ComponentType,
-  errorCallback: (err: Error) => void
+  errorCallback: (err: Error) => void,
 ) => {
   return class ErrorBoundary extends Component {
     state = { error: null };
@@ -52,7 +52,7 @@ const generatePreviewComponent = (
     input: string;
     scope: Record<string, any>;
   },
-  errorCallback: (err: Error) => void
+  errorCallback: (err: Error) => void,
 ) => {
   try {
     const _module: any = {
@@ -74,7 +74,7 @@ const generatePreviewComponent = (
 export const usePreviewComponent = (
   id: string,
   files: InputFile[],
-  require: (key: string) => any
+  require: (key: string) => any,
 ) => {
   const [bundling, setBundling] = React.useState(false);
   const [Preview, setPreview] = React.useState<any>(null);
@@ -95,7 +95,7 @@ export const usePreviewComponent = (
         // There should be only one file after bundle though
         debug(
           `Bundled code in ${(performance.now() - startTime).toFixed()}ms: `,
-          { bundledCode }
+          { bundledCode },
         );
         const El = generatePreviewComponent(
           id,
@@ -103,7 +103,7 @@ export const usePreviewComponent = (
             input: bundledCode,
             scope: { require },
           },
-          setError
+          setError,
         );
         if (El) {
           setError(null);

@@ -88,7 +88,7 @@ export const Playground = ({
           filename = "App.jsx";
         } else {
           throw new Error(
-            `Code block is missing a filename: ${props.children}`
+            `Code block is missing a filename: ${props.children}`,
           );
         }
       }

@@ -16,7 +16,7 @@ export const rehypeShiki = () => async (tree) => {
         node.tagName === "pre" &&
         node.children?.[0]?.tagName === "code" &&
         node.children?.[0]?.properties?.className?.[0].startsWith(
-          "language-"
+          "language-",
         ) &&
         node.children?.[0]?.children?.[0]?.type === "text"
       )
@@ -26,7 +26,7 @@ export const rehypeShiki = () => async (tree) => {
 
     const code = node.children[0].children[0].value;
     const lang = node.children[0].properties.className[0].slice(
-      "language-".length
+      "language-".length,
     );
 
     parent.children.splice(
@@ -41,7 +41,7 @@ export const rehypeShiki = () => async (tree) => {
         // @ts-expect-error ???
         n.children[0].properties.className.push(theme);
         return n;
-      })
+      }),
     );
   });
 };

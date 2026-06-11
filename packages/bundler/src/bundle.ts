@@ -56,7 +56,7 @@ function compileCssModule(css: string, buildId: string) {
         }
       },
       stringify,
-    ])
+    ]),
   );
 
   return {
@@ -68,7 +68,7 @@ function compileCssModule(css: string, buildId: string) {
 function compileScopedCss(css: string, buildId: string) {
   const value = serialize(
     compile(`.${buildId}{${css}}`),
-    middleware([prefixer, stringify])
+    middleware([prefixer, stringify]),
   );
 
   return {
@@ -196,7 +196,7 @@ function resolvePlugin(files: InputFile[], buildId: string): esbuild.Plugin {
               loader: inferLoader(file.filename),
             };
           }
-        }
+        },
       );
     },
   };

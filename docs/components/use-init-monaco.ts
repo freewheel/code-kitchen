@@ -29,7 +29,7 @@ export const useInitMonaco = () => {
     allTypes.map(([path, content]) => {
       return monaco.languages.typescript.typescriptDefaults.addExtraLib(
         content,
-        path
+        path,
       );
     });
 

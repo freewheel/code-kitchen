@@ -63,19 +63,19 @@ module.exports = async () => {
                 publicLibDir,
                 `esbuild-wasm`,
                 esbuildWasmVersion,
-                `esbuild.wasm`
+                `esbuild.wasm`,
               ),
             },
             {
               from: path.join(
                 path.dirname(require.resolve("monaco-editor/package.json")),
-                "min"
+                "min",
               ),
               to: path.join(
                 publicLibDir,
                 `monaco-editor`,
                 monacoEditorVersion,
-                `min`
+                `min`,
               ),
             },
 
@@ -85,7 +85,7 @@ module.exports = async () => {
               to({ context, absoluteFilename }) {
                 return path.join(
                   publicTypesDir,
-                  path.relative(context, absoluteFilename)
+                  path.relative(context, absoluteFilename),
                 );
               },
               context: "node_modules/@types",
@@ -97,7 +97,7 @@ module.exports = async () => {
               to: path.join(publicTypesDir, `demo-lib`),
             },
           ],
-        })
+        }),
       );
       return config;
     },

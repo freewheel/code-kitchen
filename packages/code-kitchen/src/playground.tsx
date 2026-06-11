@@ -54,7 +54,7 @@ function ControlButton({
       title={title}
       className={cx(
         "code-kitchen-preview-panel-header-action-button",
-        className
+        className,
       )}
       onClick={() => {
         onClick();
@@ -107,7 +107,7 @@ const clearPersistedFiles = (id: string) => {
 const recoverFiles = (id: string): InputFile[] | undefined => {
   try {
     return JSON.parse(
-      sessionStorage.getItem("code-kitchen:" + id) ?? "undefined"
+      sessionStorage.getItem("code-kitchen:" + id) ?? "undefined",
     );
   } catch {
     return undefined;
@@ -146,7 +146,7 @@ export function Playground({
   name?: string;
 }) {
   const [internalId] = React.useState(
-    () => "code-kitchen-" + safeId(id ?? genRandomStr())
+    () => "code-kitchen-" + safeId(id ?? genRandomStr()),
   );
   const cacheFiles = !!id;
   const [files, setFiles] = React.useState(initialFiles);
@@ -173,7 +173,7 @@ export function Playground({
         }
       }
     },
-    [cacheFiles, initialFiles, internalId]
+    [cacheFiles, initialFiles, internalId],
   );
 
   const debouncedFiles = useDebouncedValue(files, realConnected ? 100 : -1);
@@ -181,7 +181,7 @@ export function Playground({
   const { Preview, error, bundling } = usePreviewComponent(
     internalId,
     debouncedFiles,
-    require
+    require,
   );
 
   const realShowError = error && (showError || !Preview);
@@ -203,7 +203,7 @@ export function Playground({
         className={cx(
           "code-kitchen-root",
           !realConnected && "code-kitchen-disconnected",
-          className
+          className,
         )}
         data-dir={dir}
         data-fullscreen={fullScreen ? true : undefined}

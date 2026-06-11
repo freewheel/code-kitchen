@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "license": "Apache-2.0",
+  "packageManager": "pnpm@10.32.1",
   "devDependencies": {
     "@playwright/test": "^1.21.1",
     "@semantic-release/changelog": "^6.0.1",
@@ -17,18 +18,19 @@
     "eslint-plugin-react-hooks": "^4.5.0",
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
-    "prettier": "^2.6.2",
+    "oxfmt": "^0.42.0",
     "semantic-release": "^19.0.2",
     "typescript": "^4.6.4",
     "zx": "^6.1.0"
   },
   "scripts": {
-    "prettier": "prettier . --write",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "prepare": "husky install",
     "dev": "pnpm --dir docs dev",
     "test": "pnpm --dir docs test"
   },
   "lint-staged": {
-    "*.{md,mdx,json,css,js,jsx,ts,tsx}": "prettier --write"
+    "*.{md,mdx,json,css,js,jsx,ts,tsx}": "oxfmt"
   }
 }
